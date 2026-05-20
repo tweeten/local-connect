@@ -9,9 +9,41 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as ExploreRouteImport } from './routes/explore'
+import { Route as CreateRouteImport } from './routes/create'
+import { Route as CommunitiesRouteImport } from './routes/communities'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EventEventIdRouteImport } from './routes/event.$eventId'
+import { Route as CommunityCommunityIdRouteImport } from './routes/community.$communityId'
 
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExploreRoute = ExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreateRoute = CreateRouteImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunitiesRoute = CommunitiesRouteImport.update({
+  id: '/communities',
+  path: '/communities',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppRoute = AppRouteImport.update({
   id: '/app',
   path: '/app',
@@ -22,35 +54,136 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EventEventIdRoute = EventEventIdRouteImport.update({
+  id: '/event/$eventId',
+  path: '/event/$eventId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityCommunityIdRoute = CommunityCommunityIdRouteImport.update({
+  id: '/community/$communityId',
+  path: '/community/$communityId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRoute
+  '/communities': typeof CommunitiesRoute
+  '/create': typeof CreateRoute
+  '/explore': typeof ExploreRoute
+  '/onboarding': typeof OnboardingRoute
+  '/profile': typeof ProfileRoute
+  '/community/$communityId': typeof CommunityCommunityIdRoute
+  '/event/$eventId': typeof EventEventIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRoute
+  '/communities': typeof CommunitiesRoute
+  '/create': typeof CreateRoute
+  '/explore': typeof ExploreRoute
+  '/onboarding': typeof OnboardingRoute
+  '/profile': typeof ProfileRoute
+  '/community/$communityId': typeof CommunityCommunityIdRoute
+  '/event/$eventId': typeof EventEventIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRoute
+  '/communities': typeof CommunitiesRoute
+  '/create': typeof CreateRoute
+  '/explore': typeof ExploreRoute
+  '/onboarding': typeof OnboardingRoute
+  '/profile': typeof ProfileRoute
+  '/community/$communityId': typeof CommunityCommunityIdRoute
+  '/event/$eventId': typeof EventEventIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/communities'
+    | '/create'
+    | '/explore'
+    | '/onboarding'
+    | '/profile'
+    | '/community/$communityId'
+    | '/event/$eventId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app'
-  id: '__root__' | '/' | '/app'
+  to:
+    | '/'
+    | '/app'
+    | '/communities'
+    | '/create'
+    | '/explore'
+    | '/onboarding'
+    | '/profile'
+    | '/community/$communityId'
+    | '/event/$eventId'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/communities'
+    | '/create'
+    | '/explore'
+    | '/onboarding'
+    | '/profile'
+    | '/community/$communityId'
+    | '/event/$eventId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRoute
+  CommunitiesRoute: typeof CommunitiesRoute
+  CreateRoute: typeof CreateRoute
+  ExploreRoute: typeof ExploreRoute
+  OnboardingRoute: typeof OnboardingRoute
+  ProfileRoute: typeof ProfileRoute
+  CommunityCommunityIdRoute: typeof CommunityCommunityIdRoute
+  EventEventIdRoute: typeof EventEventIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/create': {
+      id: '/create'
+      path: '/create'
+      fullPath: '/create'
+      preLoaderRoute: typeof CreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/communities': {
+      id: '/communities'
+      path: '/communities'
+      fullPath: '/communities'
+      preLoaderRoute: typeof CommunitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app': {
       id: '/app'
       path: '/app'
@@ -65,13 +198,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/event/$eventId': {
+      id: '/event/$eventId'
+      path: '/event/$eventId'
+      fullPath: '/event/$eventId'
+      preLoaderRoute: typeof EventEventIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community/$communityId': {
+      id: '/community/$communityId'
+      path: '/community/$communityId'
+      fullPath: '/community/$communityId'
+      preLoaderRoute: typeof CommunityCommunityIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRoute,
+  CommunitiesRoute: CommunitiesRoute,
+  CreateRoute: CreateRoute,
+  ExploreRoute: ExploreRoute,
+  OnboardingRoute: OnboardingRoute,
+  ProfileRoute: ProfileRoute,
+  CommunityCommunityIdRoute: CommunityCommunityIdRoute,
+  EventEventIdRoute: EventEventIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
