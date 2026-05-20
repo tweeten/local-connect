@@ -90,7 +90,7 @@ function EventDetail() {
                 </p>
                 <div className="mt-2 flex items-center gap-2">
                   <div className="flex -space-x-2">
-                    {event.avatars.slice(0, 4).map((a, i) => (
+                    {event.avatars.slice(0, 4).map((a: string, i: number) => (
                       <span
                         key={i}
                         className={`grid h-9 w-9 place-items-center rounded-full text-xs font-semibold ring-2 ring-background ${AVATAR_PALETTE[i % AVATAR_PALETTE.length]}`}
@@ -110,7 +110,7 @@ function EventDetail() {
             )}
 
             <div className="mt-3 flex flex-wrap gap-2">
-              {event.avatars.map((a, i) => (
+              {event.avatars.map((a: string, i: number) => (
                 <div key={i} className="flex flex-col items-center gap-1">
                   <span
                     className={`grid h-11 w-11 place-items-center rounded-full text-xs font-semibold ${AVATAR_PALETTE[i % AVATAR_PALETTE.length]}`}
