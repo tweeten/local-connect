@@ -74,7 +74,7 @@ function Landing() {
             <a href="#weekend" className="hover:text-foreground">This weekend</a>
           </nav>
           <Link
-            to="/onboarding"
+            to="/app"
             className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-warm-sm hover:brightness-105"
           >
             Open app
