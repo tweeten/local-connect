@@ -74,7 +74,7 @@ function Landing() {
             <a href="#weekend" className="hover:text-foreground">This weekend</a>
           </nav>
           <Link
-            to="/"
+            to="/app"
             className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-warm-sm hover:brightness-105"
           >
             Open app
@@ -121,7 +121,7 @@ function Landing() {
               className="mt-8 flex flex-wrap items-center gap-3"
             >
               <Link
-                to="/"
+                to="/onboarding"
                 className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-base font-semibold text-primary-foreground shadow-warm hover:brightness-105"
               >
                 See what's happening near you
@@ -282,7 +282,7 @@ function Landing() {
             doing the things you already like to do.
           </p>
           <Link
-            to="/"
+            to="/onboarding"
             className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-base font-semibold text-primary-foreground shadow-warm hover:brightness-105"
           >
             See what's happening near you
