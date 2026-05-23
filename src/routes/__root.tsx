@@ -7,6 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { Toaster } from "sonner";
 import { GathrProvider } from "@/lib/GathrContext";
 
 import appCss from "../styles.css?url";
@@ -121,6 +122,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <GathrProvider>
         <Outlet />
+        <Toaster position="bottom-center" richColors />
       </GathrProvider>
     </QueryClientProvider>
   );

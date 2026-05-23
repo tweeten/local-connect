@@ -4,7 +4,6 @@ import { MapPin, Check } from "lucide-react";
 import { AvatarGroup, type AvatarGroupItem } from "./AvatarGroup";
 import { GathrButton } from "./GathrButton";
 import { CARD_PRESS, TRANSITION_SPRING } from "@/lib/design-tokens";
-import { useGathr } from "@/lib/GathrContext";
 import { cn } from "@/lib/utils";
 
 export interface EventCardProps {
@@ -32,19 +31,11 @@ export function EventCard({
   onPress,
   className,
 }: EventCardProps) {
-  const { state, toggleAttendance } = useGathr();
-  // For real events wired to context, use persisted state. For previews (id="preview"), use local state.
-  const contextEvent = state.events.find((e) => e.id === id);
-  const [localGoing, setLocalGoing] = useState(false);
-  const isGoing = contextEvent ? contextEvent.isAttending : localGoing;
+  const [isGoing, setIsGoing] = useState(false);
 
   function handleToggle(e: React.MouseEvent) {
     e.stopPropagation();
-    if (contextEvent) {
-      toggleAttendance(id);
-    } else {
-      setLocalGoing((v) => !v);
-    }
+    setIsGoing((v) => !v);
   }
 
   return (

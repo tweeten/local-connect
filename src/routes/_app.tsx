@@ -8,15 +8,15 @@ export const Route = createFileRoute("/_app")({
 });
 
 // Tab routes use crossfade only — no slide — to avoid the "everything moves" feel.
-const TAB_PATHS = ["/app", "/communities", "/explore"];
+const TAB_PATHS = ["/home", "/activity/golf", "/profile"];
 
 // Routes where the BottomNav should be hidden (full-screen flows with their own CTAs).
-const NO_NAV_PATHS = ["/create", "/event/"];
+const NO_NAV_PATHS = ["/onboarding", "/activity/golf/profile"];
 
 function AppShell() {
   const { pathname } = useLocation();
 
-  const isTab = TAB_PATHS.includes(pathname);
+  const isTab = TAB_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"));
   const showNav = !NO_NAV_PATHS.some((p) => pathname.startsWith(p));
 
   // Tab siblings: crossfade only (opacity).
@@ -50,7 +50,7 @@ function AppShell() {
       {/*
        * BottomNav sits outside AnimatePresence so it never animates during
        * route transitions — it stays persistent across all in-shell screens.
-       * It is hidden for full-screen flows (create event, event detail).
+       * It is hidden for full-screen flows (onboarding, activity profile editor).
        */}
       {showNav && <BottomNav />}
     </div>

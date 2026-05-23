@@ -14,16 +14,15 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppProfileRouteImport } from './routes/_app/profile'
-import { Route as AppMessagesRouteImport } from './routes/_app/messages'
-import { Route as AppExploreRouteImport } from './routes/_app/explore'
-import { Route as AppCreateRouteImport } from './routes/_app/create'
-import { Route as AppCommunitiesRouteImport } from './routes/_app/communities'
-import { Route as AppAppRouteImport } from './routes/_app/app'
+import { Route as AppHomeRouteImport } from './routes/_app/home'
+import { Route as AppGroupsRouteImport } from './routes/_app/groups'
 import { Route as AppProfileUserIdRouteImport } from './routes/_app/profile.$userId'
-import { Route as AppMessagesChatIdRouteImport } from './routes/_app/messages.$chatId'
-import { Route as AppEventEventIdRouteImport } from './routes/_app/event.$eventId'
-import { Route as AppCommunityCommunityIdRouteImport } from './routes/_app/community.$communityId'
-import { Route as AppCommunityCommunityIdThreadThreadIdRouteImport } from './routes/_app/community.$communityId.thread.$threadId'
+import { Route as AppGroupGroupIdRouteImport } from './routes/_app/group.$groupId'
+import { Route as AppActivityActivitySlugRouteImport } from './routes/_app/activity.$activitySlug'
+import { Route as AppGroupGroupIdScheduleRouteImport } from './routes/_app/group.$groupId.schedule'
+import { Route as AppGroupGroupIdChatRouteImport } from './routes/_app/group.$groupId.chat'
+import { Route as AppActivityActivitySlugProfileRouteImport } from './routes/_app/activity.$activitySlug.profile'
+import { Route as AppGroupGroupIdThreadThreadIdRouteImport } from './routes/_app/group.$groupId.thread.$threadId'
 
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
@@ -49,29 +48,14 @@ const AppProfileRoute = AppProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AppRoute,
 } as any)
-const AppMessagesRoute = AppMessagesRouteImport.update({
-  id: '/messages',
-  path: '/messages',
+const AppHomeRoute = AppHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
   getParentRoute: () => AppRoute,
 } as any)
-const AppExploreRoute = AppExploreRouteImport.update({
-  id: '/explore',
-  path: '/explore',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppCreateRoute = AppCreateRouteImport.update({
-  id: '/create',
-  path: '/create',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppCommunitiesRoute = AppCommunitiesRouteImport.update({
-  id: '/communities',
-  path: '/communities',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppAppRoute = AppAppRouteImport.update({
-  id: '/app',
-  path: '/app',
+const AppGroupsRoute = AppGroupsRouteImport.update({
+  id: '/groups',
+  path: '/groups',
   getParentRoute: () => AppRoute,
 } as any)
 const AppProfileUserIdRoute = AppProfileUserIdRouteImport.update({
@@ -79,128 +63,133 @@ const AppProfileUserIdRoute = AppProfileUserIdRouteImport.update({
   path: '/$userId',
   getParentRoute: () => AppProfileRoute,
 } as any)
-const AppMessagesChatIdRoute = AppMessagesChatIdRouteImport.update({
-  id: '/$chatId',
-  path: '/$chatId',
-  getParentRoute: () => AppMessagesRoute,
-} as any)
-const AppEventEventIdRoute = AppEventEventIdRouteImport.update({
-  id: '/event/$eventId',
-  path: '/event/$eventId',
+const AppGroupGroupIdRoute = AppGroupGroupIdRouteImport.update({
+  id: '/group/$groupId',
+  path: '/group/$groupId',
   getParentRoute: () => AppRoute,
 } as any)
-const AppCommunityCommunityIdRoute = AppCommunityCommunityIdRouteImport.update({
-  id: '/community/$communityId',
-  path: '/community/$communityId',
+const AppActivityActivitySlugRoute = AppActivityActivitySlugRouteImport.update({
+  id: '/activity/$activitySlug',
+  path: '/activity/$activitySlug',
   getParentRoute: () => AppRoute,
 } as any)
-const AppCommunityCommunityIdThreadThreadIdRoute =
-  AppCommunityCommunityIdThreadThreadIdRouteImport.update({
+const AppGroupGroupIdScheduleRoute = AppGroupGroupIdScheduleRouteImport.update({
+  id: '/schedule',
+  path: '/schedule',
+  getParentRoute: () => AppGroupGroupIdRoute,
+} as any)
+const AppGroupGroupIdChatRoute = AppGroupGroupIdChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => AppGroupGroupIdRoute,
+} as any)
+const AppActivityActivitySlugProfileRoute =
+  AppActivityActivitySlugProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => AppActivityActivitySlugRoute,
+  } as any)
+const AppGroupGroupIdThreadThreadIdRoute =
+  AppGroupGroupIdThreadThreadIdRouteImport.update({
     id: '/thread/$threadId',
     path: '/thread/$threadId',
-    getParentRoute: () => AppCommunityCommunityIdRoute,
+    getParentRoute: () => AppGroupGroupIdRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRoute
-  '/app': typeof AppAppRoute
-  '/communities': typeof AppCommunitiesRoute
-  '/create': typeof AppCreateRoute
-  '/explore': typeof AppExploreRoute
-  '/messages': typeof AppMessagesRouteWithChildren
+  '/groups': typeof AppGroupsRoute
+  '/home': typeof AppHomeRoute
   '/profile': typeof AppProfileRouteWithChildren
   '/settings': typeof AppSettingsRoute
-  '/community/$communityId': typeof AppCommunityCommunityIdRouteWithChildren
-  '/event/$eventId': typeof AppEventEventIdRoute
-  '/messages/$chatId': typeof AppMessagesChatIdRoute
+  '/activity/$activitySlug': typeof AppActivityActivitySlugRouteWithChildren
+  '/group/$groupId': typeof AppGroupGroupIdRouteWithChildren
   '/profile/$userId': typeof AppProfileUserIdRoute
-  '/community/$communityId/thread/$threadId': typeof AppCommunityCommunityIdThreadThreadIdRoute
+  '/activity/$activitySlug/profile': typeof AppActivityActivitySlugProfileRoute
+  '/group/$groupId/chat': typeof AppGroupGroupIdChatRoute
+  '/group/$groupId/schedule': typeof AppGroupGroupIdScheduleRoute
+  '/group/$groupId/thread/$threadId': typeof AppGroupGroupIdThreadThreadIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRoute
-  '/app': typeof AppAppRoute
-  '/communities': typeof AppCommunitiesRoute
-  '/create': typeof AppCreateRoute
-  '/explore': typeof AppExploreRoute
-  '/messages': typeof AppMessagesRouteWithChildren
+  '/groups': typeof AppGroupsRoute
+  '/home': typeof AppHomeRoute
   '/profile': typeof AppProfileRouteWithChildren
   '/settings': typeof AppSettingsRoute
-  '/community/$communityId': typeof AppCommunityCommunityIdRouteWithChildren
-  '/event/$eventId': typeof AppEventEventIdRoute
-  '/messages/$chatId': typeof AppMessagesChatIdRoute
+  '/activity/$activitySlug': typeof AppActivityActivitySlugRouteWithChildren
+  '/group/$groupId': typeof AppGroupGroupIdRouteWithChildren
   '/profile/$userId': typeof AppProfileUserIdRoute
-  '/community/$communityId/thread/$threadId': typeof AppCommunityCommunityIdThreadThreadIdRoute
+  '/activity/$activitySlug/profile': typeof AppActivityActivitySlugProfileRoute
+  '/group/$groupId/chat': typeof AppGroupGroupIdChatRoute
+  '/group/$groupId/schedule': typeof AppGroupGroupIdScheduleRoute
+  '/group/$groupId/thread/$threadId': typeof AppGroupGroupIdThreadThreadIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
   '/onboarding': typeof OnboardingRoute
-  '/_app/app': typeof AppAppRoute
-  '/_app/communities': typeof AppCommunitiesRoute
-  '/_app/create': typeof AppCreateRoute
-  '/_app/explore': typeof AppExploreRoute
-  '/_app/messages': typeof AppMessagesRouteWithChildren
+  '/_app/groups': typeof AppGroupsRoute
+  '/_app/home': typeof AppHomeRoute
   '/_app/profile': typeof AppProfileRouteWithChildren
   '/_app/settings': typeof AppSettingsRoute
-  '/_app/community/$communityId': typeof AppCommunityCommunityIdRouteWithChildren
-  '/_app/event/$eventId': typeof AppEventEventIdRoute
-  '/_app/messages/$chatId': typeof AppMessagesChatIdRoute
+  '/_app/activity/$activitySlug': typeof AppActivityActivitySlugRouteWithChildren
+  '/_app/group/$groupId': typeof AppGroupGroupIdRouteWithChildren
   '/_app/profile/$userId': typeof AppProfileUserIdRoute
-  '/_app/community/$communityId/thread/$threadId': typeof AppCommunityCommunityIdThreadThreadIdRoute
+  '/_app/activity/$activitySlug/profile': typeof AppActivityActivitySlugProfileRoute
+  '/_app/group/$groupId/chat': typeof AppGroupGroupIdChatRoute
+  '/_app/group/$groupId/schedule': typeof AppGroupGroupIdScheduleRoute
+  '/_app/group/$groupId/thread/$threadId': typeof AppGroupGroupIdThreadThreadIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/onboarding'
-    | '/app'
-    | '/communities'
-    | '/create'
-    | '/explore'
-    | '/messages'
+    | '/groups'
+    | '/home'
     | '/profile'
     | '/settings'
-    | '/community/$communityId'
-    | '/event/$eventId'
-    | '/messages/$chatId'
+    | '/activity/$activitySlug'
+    | '/group/$groupId'
     | '/profile/$userId'
-    | '/community/$communityId/thread/$threadId'
+    | '/activity/$activitySlug/profile'
+    | '/group/$groupId/chat'
+    | '/group/$groupId/schedule'
+    | '/group/$groupId/thread/$threadId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/onboarding'
-    | '/app'
-    | '/communities'
-    | '/create'
-    | '/explore'
-    | '/messages'
+    | '/groups'
+    | '/home'
     | '/profile'
     | '/settings'
-    | '/community/$communityId'
-    | '/event/$eventId'
-    | '/messages/$chatId'
+    | '/activity/$activitySlug'
+    | '/group/$groupId'
     | '/profile/$userId'
-    | '/community/$communityId/thread/$threadId'
+    | '/activity/$activitySlug/profile'
+    | '/group/$groupId/chat'
+    | '/group/$groupId/schedule'
+    | '/group/$groupId/thread/$threadId'
   id:
     | '__root__'
     | '/'
     | '/_app'
     | '/onboarding'
-    | '/_app/app'
-    | '/_app/communities'
-    | '/_app/create'
-    | '/_app/explore'
-    | '/_app/messages'
+    | '/_app/groups'
+    | '/_app/home'
     | '/_app/profile'
     | '/_app/settings'
-    | '/_app/community/$communityId'
-    | '/_app/event/$eventId'
-    | '/_app/messages/$chatId'
+    | '/_app/activity/$activitySlug'
+    | '/_app/group/$groupId'
     | '/_app/profile/$userId'
-    | '/_app/community/$communityId/thread/$threadId'
+    | '/_app/activity/$activitySlug/profile'
+    | '/_app/group/$groupId/chat'
+    | '/_app/group/$groupId/schedule'
+    | '/_app/group/$groupId/thread/$threadId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -246,39 +235,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProfileRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/messages': {
-      id: '/_app/messages'
-      path: '/messages'
-      fullPath: '/messages'
-      preLoaderRoute: typeof AppMessagesRouteImport
+    '/_app/home': {
+      id: '/_app/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AppHomeRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/explore': {
-      id: '/_app/explore'
-      path: '/explore'
-      fullPath: '/explore'
-      preLoaderRoute: typeof AppExploreRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/create': {
-      id: '/_app/create'
-      path: '/create'
-      fullPath: '/create'
-      preLoaderRoute: typeof AppCreateRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/communities': {
-      id: '/_app/communities'
-      path: '/communities'
-      fullPath: '/communities'
-      preLoaderRoute: typeof AppCommunitiesRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/app': {
-      id: '/_app/app'
-      path: '/app'
-      fullPath: '/app'
-      preLoaderRoute: typeof AppAppRouteImport
+    '/_app/groups': {
+      id: '/_app/groups'
+      path: '/groups'
+      fullPath: '/groups'
+      preLoaderRoute: typeof AppGroupsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/profile/$userId': {
@@ -288,48 +256,50 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProfileUserIdRouteImport
       parentRoute: typeof AppProfileRoute
     }
-    '/_app/messages/$chatId': {
-      id: '/_app/messages/$chatId'
-      path: '/$chatId'
-      fullPath: '/messages/$chatId'
-      preLoaderRoute: typeof AppMessagesChatIdRouteImport
-      parentRoute: typeof AppMessagesRoute
-    }
-    '/_app/event/$eventId': {
-      id: '/_app/event/$eventId'
-      path: '/event/$eventId'
-      fullPath: '/event/$eventId'
-      preLoaderRoute: typeof AppEventEventIdRouteImport
+    '/_app/group/$groupId': {
+      id: '/_app/group/$groupId'
+      path: '/group/$groupId'
+      fullPath: '/group/$groupId'
+      preLoaderRoute: typeof AppGroupGroupIdRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/community/$communityId': {
-      id: '/_app/community/$communityId'
-      path: '/community/$communityId'
-      fullPath: '/community/$communityId'
-      preLoaderRoute: typeof AppCommunityCommunityIdRouteImport
+    '/_app/activity/$activitySlug': {
+      id: '/_app/activity/$activitySlug'
+      path: '/activity/$activitySlug'
+      fullPath: '/activity/$activitySlug'
+      preLoaderRoute: typeof AppActivityActivitySlugRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/community/$communityId/thread/$threadId': {
-      id: '/_app/community/$communityId/thread/$threadId'
+    '/_app/group/$groupId/schedule': {
+      id: '/_app/group/$groupId/schedule'
+      path: '/schedule'
+      fullPath: '/group/$groupId/schedule'
+      preLoaderRoute: typeof AppGroupGroupIdScheduleRouteImport
+      parentRoute: typeof AppGroupGroupIdRoute
+    }
+    '/_app/group/$groupId/chat': {
+      id: '/_app/group/$groupId/chat'
+      path: '/chat'
+      fullPath: '/group/$groupId/chat'
+      preLoaderRoute: typeof AppGroupGroupIdChatRouteImport
+      parentRoute: typeof AppGroupGroupIdRoute
+    }
+    '/_app/activity/$activitySlug/profile': {
+      id: '/_app/activity/$activitySlug/profile'
+      path: '/profile'
+      fullPath: '/activity/$activitySlug/profile'
+      preLoaderRoute: typeof AppActivityActivitySlugProfileRouteImport
+      parentRoute: typeof AppActivityActivitySlugRoute
+    }
+    '/_app/group/$groupId/thread/$threadId': {
+      id: '/_app/group/$groupId/thread/$threadId'
       path: '/thread/$threadId'
-      fullPath: '/community/$communityId/thread/$threadId'
-      preLoaderRoute: typeof AppCommunityCommunityIdThreadThreadIdRouteImport
-      parentRoute: typeof AppCommunityCommunityIdRoute
+      fullPath: '/group/$groupId/thread/$threadId'
+      preLoaderRoute: typeof AppGroupGroupIdThreadThreadIdRouteImport
+      parentRoute: typeof AppGroupGroupIdRoute
     }
   }
 }
-
-interface AppMessagesRouteChildren {
-  AppMessagesChatIdRoute: typeof AppMessagesChatIdRoute
-}
-
-const AppMessagesRouteChildren: AppMessagesRouteChildren = {
-  AppMessagesChatIdRoute: AppMessagesChatIdRoute,
-}
-
-const AppMessagesRouteWithChildren = AppMessagesRoute._addFileChildren(
-  AppMessagesRouteChildren,
-)
 
 interface AppProfileRouteChildren {
   AppProfileUserIdRoute: typeof AppProfileUserIdRoute
@@ -343,43 +313,52 @@ const AppProfileRouteWithChildren = AppProfileRoute._addFileChildren(
   AppProfileRouteChildren,
 )
 
-interface AppCommunityCommunityIdRouteChildren {
-  AppCommunityCommunityIdThreadThreadIdRoute: typeof AppCommunityCommunityIdThreadThreadIdRoute
+interface AppActivityActivitySlugRouteChildren {
+  AppActivityActivitySlugProfileRoute: typeof AppActivityActivitySlugProfileRoute
 }
 
-const AppCommunityCommunityIdRouteChildren: AppCommunityCommunityIdRouteChildren =
+const AppActivityActivitySlugRouteChildren: AppActivityActivitySlugRouteChildren =
   {
-    AppCommunityCommunityIdThreadThreadIdRoute:
-      AppCommunityCommunityIdThreadThreadIdRoute,
+    AppActivityActivitySlugProfileRoute: AppActivityActivitySlugProfileRoute,
   }
 
-const AppCommunityCommunityIdRouteWithChildren =
-  AppCommunityCommunityIdRoute._addFileChildren(
-    AppCommunityCommunityIdRouteChildren,
+const AppActivityActivitySlugRouteWithChildren =
+  AppActivityActivitySlugRoute._addFileChildren(
+    AppActivityActivitySlugRouteChildren,
   )
 
+interface AppGroupGroupIdRouteChildren {
+  AppGroupGroupIdChatRoute: typeof AppGroupGroupIdChatRoute
+  AppGroupGroupIdScheduleRoute: typeof AppGroupGroupIdScheduleRoute
+  AppGroupGroupIdThreadThreadIdRoute: typeof AppGroupGroupIdThreadThreadIdRoute
+}
+
+const AppGroupGroupIdRouteChildren: AppGroupGroupIdRouteChildren = {
+  AppGroupGroupIdChatRoute: AppGroupGroupIdChatRoute,
+  AppGroupGroupIdScheduleRoute: AppGroupGroupIdScheduleRoute,
+  AppGroupGroupIdThreadThreadIdRoute: AppGroupGroupIdThreadThreadIdRoute,
+}
+
+const AppGroupGroupIdRouteWithChildren = AppGroupGroupIdRoute._addFileChildren(
+  AppGroupGroupIdRouteChildren,
+)
+
 interface AppRouteChildren {
-  AppAppRoute: typeof AppAppRoute
-  AppCommunitiesRoute: typeof AppCommunitiesRoute
-  AppCreateRoute: typeof AppCreateRoute
-  AppExploreRoute: typeof AppExploreRoute
-  AppMessagesRoute: typeof AppMessagesRouteWithChildren
+  AppGroupsRoute: typeof AppGroupsRoute
+  AppHomeRoute: typeof AppHomeRoute
   AppProfileRoute: typeof AppProfileRouteWithChildren
   AppSettingsRoute: typeof AppSettingsRoute
-  AppCommunityCommunityIdRoute: typeof AppCommunityCommunityIdRouteWithChildren
-  AppEventEventIdRoute: typeof AppEventEventIdRoute
+  AppActivityActivitySlugRoute: typeof AppActivityActivitySlugRouteWithChildren
+  AppGroupGroupIdRoute: typeof AppGroupGroupIdRouteWithChildren
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppAppRoute: AppAppRoute,
-  AppCommunitiesRoute: AppCommunitiesRoute,
-  AppCreateRoute: AppCreateRoute,
-  AppExploreRoute: AppExploreRoute,
-  AppMessagesRoute: AppMessagesRouteWithChildren,
+  AppGroupsRoute: AppGroupsRoute,
+  AppHomeRoute: AppHomeRoute,
   AppProfileRoute: AppProfileRouteWithChildren,
   AppSettingsRoute: AppSettingsRoute,
-  AppCommunityCommunityIdRoute: AppCommunityCommunityIdRouteWithChildren,
-  AppEventEventIdRoute: AppEventEventIdRoute,
+  AppActivityActivitySlugRoute: AppActivityActivitySlugRouteWithChildren,
+  AppGroupGroupIdRoute: AppGroupGroupIdRouteWithChildren,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

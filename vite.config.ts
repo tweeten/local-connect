@@ -12,4 +12,11 @@ export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
   },
+  vite: {
+    ssr: {
+      // @googlemaps/markerclusterer ships as CJS — pre-bundle it so Vite's
+      // SSR module runner can resolve its named exports without crashing.
+      noExternal: ["@googlemaps/markerclusterer"],
+    },
+  },
 });

@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Lock, MapPin, Users, Calendar } from "lucide-react";
 import {
   TopBar,
@@ -6,6 +6,7 @@ import {
   StatCounter,
   SectionHeader,
   GathrButton,
+  EmptyState,
 } from "@/components/ui";
 import {
   USER_BY_ID,
@@ -16,7 +17,7 @@ import {
   getMutualConnections,
   getSharedCommunities,
   formatEventDate,
-} from "@/lib/gather-data";
+} from "@/lib/mock-data";
 import { useGathr } from "@/lib/GathrContext";
 
 export const Route = createFileRoute("/_app/profile/$userId")({
@@ -28,6 +29,7 @@ function UserProfile() {
   const { userId } = Route.useParams();
   const { state } = useGathr();
   const { currentUser } = state;
+  const navigate = useNavigate();
 
   const user = USER_BY_ID[userId];
 
@@ -35,15 +37,19 @@ function UserProfile() {
     return (
       <div className="h-full flex flex-col bg-background">
         <TopBar back="/profile" title="Profile" showBell={false} />
-        <main className="flex-1 overflow-y-auto pt-16 pb-20 px-5">
-          <p className="mt-8 text-sm text-gathr-warm-gray">User not found.</p>
+        <main className="flex-1 overflow-y-auto pt-16 pb-20 px-5 flex items-center justify-center">
+          <EmptyState
+            headline="Person not found"
+            body="This profile doesn't exist or may have been removed."
+            ctaLabel="Back to your profile"
+            onCta={() => navigate({ to: "/profile" })}
+          />
         </main>
       </div>
     );
   }
 
   const isMutual = (CONNECTIONS[currentUser.id] ?? []).includes(userId);
-  const chatId = [currentUser.id, userId].sort().join("-");
 
   const mutualConnections = getMutualConnections(currentUser.id, userId);
   const sharedCommunityIds = new Set(getSharedCommunities(currentUser.id, userId));
@@ -105,7 +111,7 @@ function UserProfile() {
             {/* ── Mutual connection CTA ──────────────────────────── */}
             <div className="px-5 pb-4">
               {isMutual ? (
-                <Link to="/messages/$chatId" params={{ chatId }}>
+                <Link to="/home">
                   <GathrButton variant="primary" className="w-full">
                     Say hi
                   </GathrButton>
@@ -128,8 +134,7 @@ function UserProfile() {
                   {upcomingEvents.map((e) => (
                     <Link
                       key={e.id}
-                      to="/event/$eventId"
-                      params={{ eventId: e.id }}
+                      to="/home"
                       className="block rounded-2xl bg-background px-4 py-3 ring-1 ring-border/60 hover:ring-primary/40 transition-colors"
                     >
                       <p className="font-display text-base text-gathr-charcoal leading-snug">
@@ -153,12 +158,13 @@ function UserProfile() {
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-gathr-warm-gray">
-                  No shared upcoming events.{" "}
-                  <Link to="/app" className="text-gathr-warm-gray underline-offset-2 hover:underline">
-                    See what's happening →
-                  </Link>
-                </p>
+                <EmptyState
+                  headline="No shared events yet"
+                  body={`Attend the same events as ${user.firstName} to see what you have in common.`}
+                  ctaLabel="See what's happening"
+                  onCta={() => navigate({ to: "/home" })}
+                  className="py-4"
+                />
               )}
             </section>
 
@@ -176,8 +182,8 @@ function UserProfile() {
                       {sharedCommunities.map((c) => (
                         <Link
                           key={c.id}
-                          to="/community/$communityId"
-                          params={{ communityId: c.id }}
+                          to="/activity/$activitySlug"
+                          params={{ activitySlug: "golf" }}
                           className="shrink-0 flex items-center gap-2 rounded-full border border-gathr-warm-gray-light bg-gathr-cream-dark px-3 py-1.5 text-sm text-gathr-charcoal hover:border-gathr-warm-gray transition-colors"
                         >
                           <span

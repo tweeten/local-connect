@@ -8,10 +8,12 @@ import {
 } from "@/components/ui";
 import {
   ACCENT_COLOR_CLASS,
+  COMMUNITIES,
   CONNECTIONS,
+  EVENTS,
   USER_BY_ID,
   formatEventDate,
-} from "@/lib/gather-data";
+} from "@/lib/mock-data";
 import { useGathr } from "@/lib/GathrContext";
 
 export const Route = createFileRoute("/_app/profile")({
@@ -21,11 +23,11 @@ export const Route = createFileRoute("/_app/profile")({
 
 function ProfileScreen() {
   const { state } = useGathr();
-  const { currentUser, communities, events } = state;
+  const { currentUser } = state;
 
-  const joinedCommunities = communities.filter((c) => c.isJoined);
-  const attendingEvents = events.filter((e) => e.isAttending).slice(0, 2);
-  const recentActivity = events.slice(0, 5);
+  const joinedCommunities = COMMUNITIES.filter((c) => c.isJoined);
+  const attendingEvents = EVENTS.filter((e) => e.isAttending).slice(0, 2);
+  const recentActivity = EVENTS.slice(0, 5);
 
   const connectionIds = CONNECTIONS[currentUser.id] ?? [];
   const connections = connectionIds
@@ -38,7 +40,7 @@ function ProfileScreen() {
     <div className="h-full flex flex-col bg-background">
       <TopBar
         title="Profile"
-        back="/app"
+        back="/home"
         showBell={false}
         rightAction={
           <Link
@@ -114,8 +116,7 @@ function ProfileScreen() {
                   {attendingEvents.map((e) => (
                     <Link
                       key={e.id}
-                      to="/event/$eventId"
-                      params={{ eventId: e.id }}
+                      to="/home"
                       className="block rounded-2xl bg-background px-4 py-3 ring-1 ring-border/60 hover:ring-primary/40 transition-colors"
                     >
                       <p className="font-display text-base text-gathr-charcoal leading-snug">
@@ -141,7 +142,7 @@ function ProfileScreen() {
               ) : (
                 <p className="text-sm text-gathr-warm-gray">
                   Nothing planned yet.{" "}
-                  <Link to="/app" className="text-gathr-warm-gray underline-offset-2 hover:underline">
+                  <Link to="/home" className="text-gathr-warm-gray underline-offset-2 hover:underline">
                     See what's happening →
                   </Link>
                 </p>
@@ -161,8 +162,8 @@ function ProfileScreen() {
                     {joinedCommunities.map((c) => (
                       <Link
                         key={c.id}
-                        to="/community/$communityId"
-                        params={{ communityId: c.id }}
+                        to="/activity/$activitySlug"
+                        params={{ activitySlug: "golf" }}
                         className="shrink-0 flex items-center gap-2 rounded-full border border-gathr-warm-gray-light bg-gathr-cream-dark px-3 py-1.5 text-sm text-gathr-charcoal hover:border-gathr-warm-gray transition-colors"
                       >
                         <span
@@ -234,8 +235,7 @@ function ProfileScreen() {
                   {recentActivity.map((e) => (
                     <Link
                       key={e.id}
-                      to="/event/$eventId"
-                      params={{ eventId: e.id }}
+                      to="/home"
                       className="relative flex items-start gap-3 group"
                     >
                       {/* Amber dot */}

@@ -1,23 +1,22 @@
 import { useState, useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
-import { MessageCircle, Users, MapPin } from "lucide-react";
-import { EVENTS } from "@/lib/gather-data";
+import { Target, Users, CalendarCheck, Flag, Mountain, Bike } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Gathr — Find your people this weekend" },
+      { title: "Gathr — Stop scrolling. Start playing." },
       {
         name: "description",
         content:
-          "Gathr connects people through real-world activities and local events. Say what you're doing this weekend — we'll find the right few people nearby.",
+          "We match you with a small group of people who share your hobby, skill level, and goals — so you always have someone to play with.",
       },
-      { property: "og:title", content: "Gathr — Find your people this weekend" },
+      { property: "og:title", content: "Gathr — Stop scrolling. Start playing." },
       {
         property: "og:description",
         content:
-          "A local community app for people who want to do more on weekends. Activity first, community second.",
+          "We match you with a small group of people who share your hobby, skill level, and goals — so you always have someone to play with.",
       },
     ],
   }),
@@ -25,28 +24,36 @@ export const Route = createFileRoute("/")({
 });
 
 const tickerStatements = [
-  `${EVENTS[0].totalAttendees} people in Minneapolis are heading to the Vikings game this Sunday`,
-  `${EVENTS[1].totalAttendees} people are hitting the trails at Lebanon Hills this Saturday`,
-  `${EVENTS[2].totalAttendees} families are meeting at Como Park for coffee this weekend`,
-  `${EVENTS[3]?.totalAttendees ?? 19} people are gathering for trivia night at Surly this Friday`,
+  "4 groups are teeing off this Saturday",
+  "12 players matched this week",
+  "Avg group plays together 2.3x per week",
 ];
 
-const valueBlocks = [
+const howItWorksBlocks = [
   {
-    icon: MessageCircle,
-    headline: "Say what you're up to",
-    body: "Tell us what you're doing this weekend — watching the game, hitting a trail, taking the kids somewhere new.",
+    icon: Target,
+    headline: "Tell us your game",
+    body: "Your score, how often you play, and what you're working toward. We call that your Third Object.",
   },
   {
     icon: Users,
-    headline: "We'll find your people",
-    body: "Get matched with a small group who's doing the same thing nearby. Not thousands of strangers — just the right few.",
+    headline: "We find your people",
+    body: "Our matching engine pairs you with 3-4 players at your level, near you, with similar goals.",
   },
   {
-    icon: MapPin,
-    headline: "Show up and have fun",
-    body: "Meet at the event, have a great time, and connect with people you'd actually want to hang out with again.",
+    icon: CalendarCheck,
+    headline: "Show up and play",
+    body: "Your group gets a private space to coordinate tee times, share tips, and track progress together.",
   },
+];
+
+const activities = [
+  { label: "Golf", icon: Flag, active: true },
+  { label: "Trail Running", icon: Mountain, active: false },
+  { label: "Pickup Basketball", icon: null, active: false },
+  { label: "Tennis", icon: null, active: false },
+  { label: "Cycling", icon: Bike, active: false },
+  { label: "Climbing", icon: Mountain, active: false },
 ];
 
 function Landing() {
@@ -85,7 +92,7 @@ function Landing() {
         />
 
         <div className="relative z-10 flex flex-col items-center gap-5">
-          {/* Wordmark */}
+          {/* Logo */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -95,55 +102,41 @@ function Landing() {
             <img src="/gathr-logo.png" alt="Gathr" className="h-24 w-auto md:h-40" />
           </motion.div>
 
-          {/* Tagline */}
+          {/* Headline */}
+          <motion.h1
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+            className="font-display text-4xl text-gathr-charcoal md:text-5xl"
+          >
+            Stop scrolling. Start playing.
+          </motion.h1>
+
+          {/* Subline */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.15 }}
-            className="font-body text-xl font-normal text-gathr-charcoal"
+            transition={{ duration: 0.3, delay: 0.2 }}
+            className="font-body max-w-md text-xl text-gathr-warm-gray"
           >
-            Find your people this weekend.
+            We match you with 3-4 people at your level who want to play as often as you do.
           </motion.p>
 
-          {/* Ticker */}
+          {/* CTAs */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.3 }}
-            className="h-6 overflow-hidden"
-          >
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={tickerIndex}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.35 }}
-                className="text-base italic text-gathr-warm-gray"
-              >
-                {tickerStatements[tickerIndex]}
-              </motion.p>
-            </AnimatePresence>
-          </motion.div>
-
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.45 }}
+            transition={{ duration: 0.3, delay: 0.35 }}
             className="mt-3 flex flex-col items-center gap-3"
           >
             <Link
               to="/onboarding"
-              className="w-full rounded-full bg-gathr-amber px-8 py-4 text-base font-semibold text-white shadow-warm hover:brightness-105 md:w-auto"
+              className="inline-flex h-14 items-center justify-center rounded-full bg-gathr-amber px-8 text-lg font-semibold text-white shadow-warm transition-colors hover:bg-gathr-amber-light"
             >
-              See what's happening
+              Find your foursome
             </Link>
-            <p className="text-sm text-gathr-warm-gray">
-              Free to join. Takes 60 seconds.
-            </p>
             <Link
-              to="/app"
+              to="/home"
               className="text-sm text-gathr-warm-gray underline-offset-2 hover:underline"
             >
               Already have an account? Sign in
@@ -152,23 +145,116 @@ function Landing() {
         </div>
       </section>
 
-      {/* ── Value Section ─────────────────────────────────── */}
+      {/* ── How It Works ──────────────────────────────────── */}
       <section className="bg-gathr-cream-dark py-24">
-        <div className="mx-auto grid max-w-5xl gap-12 px-6 md:grid-cols-3 md:gap-8">
-          {valueBlocks.map((block, i) => (
-            <motion.div
-              key={block.headline}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-              className="flex flex-col items-center gap-4 text-center md:items-start md:text-left"
-            >
-              <block.icon className="h-8 w-8 text-gathr-amber" strokeWidth={1.5} />
-              <h2 className="font-serif text-lg text-gathr-charcoal">{block.headline}</h2>
-              <p className="text-base text-gathr-warm-gray">{block.body}</p>
-            </motion.div>
-          ))}
+        <div className="mx-auto max-w-5xl px-6">
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="font-display mb-16 text-center text-2xl text-gathr-charcoal md:text-3xl"
+          >
+            How it works
+          </motion.h2>
+          <div className="grid gap-12 md:grid-cols-3 md:gap-8">
+            {howItWorksBlocks.map((block, i) => (
+              <motion.div
+                key={block.headline}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                className="flex flex-col items-center gap-4 text-center md:items-start md:text-left"
+              >
+                <block.icon className="h-8 w-8 text-gathr-amber" strokeWidth={1.5} />
+                <h3 className="font-serif text-lg text-gathr-charcoal">{block.headline}</h3>
+                <p className="text-base text-gathr-warm-gray">{block.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Social Proof Ticker ────────────────────────────── */}
+      <section className="bg-gathr-cream py-16">
+        <div className="mx-auto flex max-w-xl flex-col items-center gap-3 px-6 text-center">
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="font-body text-sm font-semibold uppercase tracking-widest text-gathr-amber"
+          >
+            Right now in the Twin Cities
+          </motion.p>
+          <div className="h-7 overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={tickerIndex}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.35 }}
+                className="font-body text-lg italic text-gathr-warm-gray"
+              >
+                {tickerStatements[tickerIndex]}
+              </motion.p>
+            </AnimatePresence>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Activity Preview ───────────────────────────────── */}
+      <section className="bg-gathr-cream-dark py-24">
+        <div className="mx-auto max-w-5xl px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="mb-12 text-center"
+          >
+            <h2 className="font-display mb-3 text-2xl text-gathr-charcoal md:text-3xl">
+              Starting with golf. Expanding to everything.
+            </h2>
+            <p className="font-body text-base text-gathr-warm-gray">
+              Golf is our first activity. Trail running, pickup basketball, and more are coming.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6 md:gap-4">
+            {activities.map((activity, i) => (
+              <motion.div
+                key={activity.label}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: i * 0.07 }}
+                className={`relative flex flex-col items-center gap-2 rounded-card-lg p-4 text-center shadow-warm-sm ${
+                  activity.active
+                    ? "bg-gathr-amber text-white"
+                    : "bg-gathr-cream text-gathr-warm-gray-light"
+                }`}
+              >
+                {activity.icon ? (
+                  <activity.icon className="h-6 w-6" strokeWidth={1.5} />
+                ) : (
+                  <span className="h-6 w-6 flex items-center justify-center text-base leading-none">
+                    {activity.label === "Pickup Basketball" ? "🏀" : "🎾"}
+                  </span>
+                )}
+                <span className={`font-body text-xs font-semibold ${activity.active ? "text-white" : "text-gathr-warm-gray-light"}`}>
+                  {activity.label}
+                </span>
+                {!activity.active && (
+                  <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-full bg-gathr-cream-dark px-2 py-0.5 text-[10px] font-semibold text-gathr-warm-gray whitespace-nowrap">
+                    Coming soon
+                  </span>
+                )}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -177,9 +263,9 @@ function Landing() {
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4">
           <span className="font-serif text-lg text-gathr-warm-gray">Gathr</span>
           <nav className="flex gap-6 text-sm text-gathr-warm-gray">
-            <a href="#" className="hover:text-gathr-cream-dark transition-colors">About</a>
-            <a href="#" className="hover:text-gathr-cream-dark transition-colors">Privacy</a>
-            <a href="#" className="hover:text-gathr-cream-dark transition-colors">Terms</a>
+            <a href="#" className="transition-colors hover:text-gathr-cream-dark">About</a>
+            <a href="#" className="transition-colors hover:text-gathr-cream-dark">Privacy</a>
+            <a href="#" className="transition-colors hover:text-gathr-cream-dark">Terms</a>
           </nav>
           <p className="w-full text-sm text-gathr-warm-gray md:w-auto">
             © {new Date().getFullYear()} Gathr. Twin Cities, MN.

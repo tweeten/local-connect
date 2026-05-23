@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { TopBar, GathrAvatar, GathrButton, GathrToggle } from "@/components/ui";
 import { useGathr } from "@/lib/GathrContext";
-import { getUserInitials } from "@/lib/gather-data";
+import { getUserInitials } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/_app/settings")({
   head: () => ({ meta: [{ title: "Gathr — Settings" }] }),

@@ -220,18 +220,29 @@
 /* ── Google Maps InfoWindow custom style ── */
 .gm-style .gm-style-iw-c {
   background: #FAF7F2 !important;
-  border-radius: 12px !important;
-  box-shadow: 0 4px 20px rgba(44,44,44,0.12), 0 1px 4px rgba(44,44,44,0.08) !important;
-  padding: 12px 14px !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 24px rgba(44,44,44,0.13), 0 1px 6px rgba(44,44,44,0.07) !important;
+  padding: 14px 16px 12px !important;
+  max-width: 260px !important;
 }
+/* Allow the inner content div to expand naturally (no scroll needed) */
 .gm-style .gm-style-iw-d {
-  overflow: hidden !important;
+  overflow: visible !important;
+  max-height: none !important;
 }
+/* Tail colour */
 .gm-style .gm-style-iw-tc::after {
   background: #FAF7F2 !important;
 }
+/* Close button */
+.gm-style .gm-ui-hover-effect {
+  top: 4px !important;
+  right: 4px !important;
+}
 .gm-style .gm-ui-hover-effect > span {
   background-color: #7A7670 !important;
+  width: 14px !important;
+  height: 14px !important;
 }
 
 /* ── Scrollbar hide utility ── */
