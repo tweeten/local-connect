@@ -97,7 +97,7 @@ export function MapCanvas({
             )}
           </motion.div>
           {showLabels && p.label && (
-            <div className="absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-card px-2 py-1 text-[10px] font-medium text-foreground shadow-warm-sm">
+            <div className="absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-card-sm bg-card px-2 py-1 text-[10px] font-medium text-foreground shadow-warm-sm">
               {p.label}
             </div>
           )}

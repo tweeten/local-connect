@@ -9,44 +9,29 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
-import { Route as ExploreRouteImport } from './routes/explore'
-import { Route as CreateRouteImport } from './routes/create'
-import { Route as CommunitiesRouteImport } from './routes/communities'
-import { Route as AppRouteImport } from './routes/app'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as EventEventIdRouteImport } from './routes/event.$eventId'
-import { Route as CommunityCommunityIdRouteImport } from './routes/community.$communityId'
+import { Route as AppSettingsRouteImport } from './routes/_app/settings'
+import { Route as AppProfileRouteImport } from './routes/_app/profile'
+import { Route as AppMessagesRouteImport } from './routes/_app/messages'
+import { Route as AppExploreRouteImport } from './routes/_app/explore'
+import { Route as AppCreateRouteImport } from './routes/_app/create'
+import { Route as AppCommunitiesRouteImport } from './routes/_app/communities'
+import { Route as AppAppRouteImport } from './routes/_app/app'
+import { Route as AppProfileUserIdRouteImport } from './routes/_app/profile.$userId'
+import { Route as AppMessagesChatIdRouteImport } from './routes/_app/messages.$chatId'
+import { Route as AppEventEventIdRouteImport } from './routes/_app/event.$eventId'
+import { Route as AppCommunityCommunityIdRouteImport } from './routes/_app/community.$communityId'
+import { Route as AppCommunityCommunityIdThreadThreadIdRouteImport } from './routes/_app/community.$communityId.thread.$threadId'
 
-const ProfileRoute = ProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ExploreRoute = ExploreRouteImport.update({
-  id: '/explore',
-  path: '/explore',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CreateRoute = CreateRouteImport.update({
-  id: '/create',
-  path: '/create',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CommunitiesRoute = CommunitiesRouteImport.update({
-  id: '/communities',
-  path: '/communities',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AppRoute = AppRouteImport.update({
-  id: '/app',
-  path: '/app',
+  id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -54,108 +39,178 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EventEventIdRoute = EventEventIdRouteImport.update({
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMessagesRoute = AppMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppExploreRoute = AppExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCreateRoute = AppCreateRouteImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCommunitiesRoute = AppCommunitiesRouteImport.update({
+  id: '/communities',
+  path: '/communities',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAppRoute = AppAppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProfileUserIdRoute = AppProfileUserIdRouteImport.update({
+  id: '/$userId',
+  path: '/$userId',
+  getParentRoute: () => AppProfileRoute,
+} as any)
+const AppMessagesChatIdRoute = AppMessagesChatIdRouteImport.update({
+  id: '/$chatId',
+  path: '/$chatId',
+  getParentRoute: () => AppMessagesRoute,
+} as any)
+const AppEventEventIdRoute = AppEventEventIdRouteImport.update({
   id: '/event/$eventId',
   path: '/event/$eventId',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
-const CommunityCommunityIdRoute = CommunityCommunityIdRouteImport.update({
+const AppCommunityCommunityIdRoute = AppCommunityCommunityIdRouteImport.update({
   id: '/community/$communityId',
   path: '/community/$communityId',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
+const AppCommunityCommunityIdThreadThreadIdRoute =
+  AppCommunityCommunityIdThreadThreadIdRouteImport.update({
+    id: '/thread/$threadId',
+    path: '/thread/$threadId',
+    getParentRoute: () => AppCommunityCommunityIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/app': typeof AppRoute
-  '/communities': typeof CommunitiesRoute
-  '/create': typeof CreateRoute
-  '/explore': typeof ExploreRoute
   '/onboarding': typeof OnboardingRoute
-  '/profile': typeof ProfileRoute
-  '/community/$communityId': typeof CommunityCommunityIdRoute
-  '/event/$eventId': typeof EventEventIdRoute
+  '/app': typeof AppAppRoute
+  '/communities': typeof AppCommunitiesRoute
+  '/create': typeof AppCreateRoute
+  '/explore': typeof AppExploreRoute
+  '/messages': typeof AppMessagesRouteWithChildren
+  '/profile': typeof AppProfileRouteWithChildren
+  '/settings': typeof AppSettingsRoute
+  '/community/$communityId': typeof AppCommunityCommunityIdRouteWithChildren
+  '/event/$eventId': typeof AppEventEventIdRoute
+  '/messages/$chatId': typeof AppMessagesChatIdRoute
+  '/profile/$userId': typeof AppProfileUserIdRoute
+  '/community/$communityId/thread/$threadId': typeof AppCommunityCommunityIdThreadThreadIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app': typeof AppRoute
-  '/communities': typeof CommunitiesRoute
-  '/create': typeof CreateRoute
-  '/explore': typeof ExploreRoute
   '/onboarding': typeof OnboardingRoute
-  '/profile': typeof ProfileRoute
-  '/community/$communityId': typeof CommunityCommunityIdRoute
-  '/event/$eventId': typeof EventEventIdRoute
+  '/app': typeof AppAppRoute
+  '/communities': typeof AppCommunitiesRoute
+  '/create': typeof AppCreateRoute
+  '/explore': typeof AppExploreRoute
+  '/messages': typeof AppMessagesRouteWithChildren
+  '/profile': typeof AppProfileRouteWithChildren
+  '/settings': typeof AppSettingsRoute
+  '/community/$communityId': typeof AppCommunityCommunityIdRouteWithChildren
+  '/event/$eventId': typeof AppEventEventIdRoute
+  '/messages/$chatId': typeof AppMessagesChatIdRoute
+  '/profile/$userId': typeof AppProfileUserIdRoute
+  '/community/$communityId/thread/$threadId': typeof AppCommunityCommunityIdThreadThreadIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/app': typeof AppRoute
-  '/communities': typeof CommunitiesRoute
-  '/create': typeof CreateRoute
-  '/explore': typeof ExploreRoute
+  '/_app': typeof AppRouteWithChildren
   '/onboarding': typeof OnboardingRoute
-  '/profile': typeof ProfileRoute
-  '/community/$communityId': typeof CommunityCommunityIdRoute
-  '/event/$eventId': typeof EventEventIdRoute
+  '/_app/app': typeof AppAppRoute
+  '/_app/communities': typeof AppCommunitiesRoute
+  '/_app/create': typeof AppCreateRoute
+  '/_app/explore': typeof AppExploreRoute
+  '/_app/messages': typeof AppMessagesRouteWithChildren
+  '/_app/profile': typeof AppProfileRouteWithChildren
+  '/_app/settings': typeof AppSettingsRoute
+  '/_app/community/$communityId': typeof AppCommunityCommunityIdRouteWithChildren
+  '/_app/event/$eventId': typeof AppEventEventIdRoute
+  '/_app/messages/$chatId': typeof AppMessagesChatIdRoute
+  '/_app/profile/$userId': typeof AppProfileUserIdRoute
+  '/_app/community/$communityId/thread/$threadId': typeof AppCommunityCommunityIdThreadThreadIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/onboarding'
     | '/app'
     | '/communities'
     | '/create'
     | '/explore'
-    | '/onboarding'
+    | '/messages'
     | '/profile'
+    | '/settings'
     | '/community/$communityId'
     | '/event/$eventId'
+    | '/messages/$chatId'
+    | '/profile/$userId'
+    | '/community/$communityId/thread/$threadId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/onboarding'
     | '/app'
     | '/communities'
     | '/create'
     | '/explore'
-    | '/onboarding'
+    | '/messages'
     | '/profile'
+    | '/settings'
     | '/community/$communityId'
     | '/event/$eventId'
+    | '/messages/$chatId'
+    | '/profile/$userId'
+    | '/community/$communityId/thread/$threadId'
   id:
     | '__root__'
     | '/'
-    | '/app'
-    | '/communities'
-    | '/create'
-    | '/explore'
+    | '/_app'
     | '/onboarding'
-    | '/profile'
-    | '/community/$communityId'
-    | '/event/$eventId'
+    | '/_app/app'
+    | '/_app/communities'
+    | '/_app/create'
+    | '/_app/explore'
+    | '/_app/messages'
+    | '/_app/profile'
+    | '/_app/settings'
+    | '/_app/community/$communityId'
+    | '/_app/event/$eventId'
+    | '/_app/messages/$chatId'
+    | '/_app/profile/$userId'
+    | '/_app/community/$communityId/thread/$threadId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AppRoute: typeof AppRoute
-  CommunitiesRoute: typeof CommunitiesRoute
-  CreateRoute: typeof CreateRoute
-  ExploreRoute: typeof ExploreRoute
+  AppRoute: typeof AppRouteWithChildren
   OnboardingRoute: typeof OnboardingRoute
-  ProfileRoute: typeof ProfileRoute
-  CommunityCommunityIdRoute: typeof CommunityCommunityIdRoute
-  EventEventIdRoute: typeof EventEventIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/onboarding': {
       id: '/onboarding'
       path: '/onboarding'
@@ -163,31 +218,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/explore': {
-      id: '/explore'
-      path: '/explore'
-      fullPath: '/explore'
-      preLoaderRoute: typeof ExploreRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/create': {
-      id: '/create'
-      path: '/create'
-      fullPath: '/create'
-      preLoaderRoute: typeof CreateRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/communities': {
-      id: '/communities'
-      path: '/communities'
-      fullPath: '/communities'
-      preLoaderRoute: typeof CommunitiesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/app': {
-      id: '/app'
-      path: '/app'
-      fullPath: '/app'
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -198,34 +232,173 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/event/$eventId': {
-      id: '/event/$eventId'
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/profile': {
+      id: '/_app/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/messages': {
+      id: '/_app/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof AppMessagesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/explore': {
+      id: '/_app/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof AppExploreRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/create': {
+      id: '/_app/create'
+      path: '/create'
+      fullPath: '/create'
+      preLoaderRoute: typeof AppCreateRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/communities': {
+      id: '/_app/communities'
+      path: '/communities'
+      fullPath: '/communities'
+      preLoaderRoute: typeof AppCommunitiesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/app': {
+      id: '/_app/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppAppRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/profile/$userId': {
+      id: '/_app/profile/$userId'
+      path: '/$userId'
+      fullPath: '/profile/$userId'
+      preLoaderRoute: typeof AppProfileUserIdRouteImport
+      parentRoute: typeof AppProfileRoute
+    }
+    '/_app/messages/$chatId': {
+      id: '/_app/messages/$chatId'
+      path: '/$chatId'
+      fullPath: '/messages/$chatId'
+      preLoaderRoute: typeof AppMessagesChatIdRouteImport
+      parentRoute: typeof AppMessagesRoute
+    }
+    '/_app/event/$eventId': {
+      id: '/_app/event/$eventId'
       path: '/event/$eventId'
       fullPath: '/event/$eventId'
-      preLoaderRoute: typeof EventEventIdRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppEventEventIdRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/community/$communityId': {
-      id: '/community/$communityId'
+    '/_app/community/$communityId': {
+      id: '/_app/community/$communityId'
       path: '/community/$communityId'
       fullPath: '/community/$communityId'
-      preLoaderRoute: typeof CommunityCommunityIdRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppCommunityCommunityIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/community/$communityId/thread/$threadId': {
+      id: '/_app/community/$communityId/thread/$threadId'
+      path: '/thread/$threadId'
+      fullPath: '/community/$communityId/thread/$threadId'
+      preLoaderRoute: typeof AppCommunityCommunityIdThreadThreadIdRouteImport
+      parentRoute: typeof AppCommunityCommunityIdRoute
     }
   }
 }
 
+interface AppMessagesRouteChildren {
+  AppMessagesChatIdRoute: typeof AppMessagesChatIdRoute
+}
+
+const AppMessagesRouteChildren: AppMessagesRouteChildren = {
+  AppMessagesChatIdRoute: AppMessagesChatIdRoute,
+}
+
+const AppMessagesRouteWithChildren = AppMessagesRoute._addFileChildren(
+  AppMessagesRouteChildren,
+)
+
+interface AppProfileRouteChildren {
+  AppProfileUserIdRoute: typeof AppProfileUserIdRoute
+}
+
+const AppProfileRouteChildren: AppProfileRouteChildren = {
+  AppProfileUserIdRoute: AppProfileUserIdRoute,
+}
+
+const AppProfileRouteWithChildren = AppProfileRoute._addFileChildren(
+  AppProfileRouteChildren,
+)
+
+interface AppCommunityCommunityIdRouteChildren {
+  AppCommunityCommunityIdThreadThreadIdRoute: typeof AppCommunityCommunityIdThreadThreadIdRoute
+}
+
+const AppCommunityCommunityIdRouteChildren: AppCommunityCommunityIdRouteChildren =
+  {
+    AppCommunityCommunityIdThreadThreadIdRoute:
+      AppCommunityCommunityIdThreadThreadIdRoute,
+  }
+
+const AppCommunityCommunityIdRouteWithChildren =
+  AppCommunityCommunityIdRoute._addFileChildren(
+    AppCommunityCommunityIdRouteChildren,
+  )
+
+interface AppRouteChildren {
+  AppAppRoute: typeof AppAppRoute
+  AppCommunitiesRoute: typeof AppCommunitiesRoute
+  AppCreateRoute: typeof AppCreateRoute
+  AppExploreRoute: typeof AppExploreRoute
+  AppMessagesRoute: typeof AppMessagesRouteWithChildren
+  AppProfileRoute: typeof AppProfileRouteWithChildren
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppCommunityCommunityIdRoute: typeof AppCommunityCommunityIdRouteWithChildren
+  AppEventEventIdRoute: typeof AppEventEventIdRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAppRoute: AppAppRoute,
+  AppCommunitiesRoute: AppCommunitiesRoute,
+  AppCreateRoute: AppCreateRoute,
+  AppExploreRoute: AppExploreRoute,
+  AppMessagesRoute: AppMessagesRouteWithChildren,
+  AppProfileRoute: AppProfileRouteWithChildren,
+  AppSettingsRoute: AppSettingsRoute,
+  AppCommunityCommunityIdRoute: AppCommunityCommunityIdRouteWithChildren,
+  AppEventEventIdRoute: AppEventEventIdRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AppRoute: AppRoute,
-  CommunitiesRoute: CommunitiesRoute,
-  CreateRoute: CreateRoute,
-  ExploreRoute: ExploreRoute,
+  AppRoute: AppRouteWithChildren,
   OnboardingRoute: OnboardingRoute,
-  ProfileRoute: ProfileRoute,
-  CommunityCommunityIdRoute: CommunityCommunityIdRoute,
-  EventEventIdRoute: EventEventIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

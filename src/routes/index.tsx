@@ -1,20 +1,19 @@
+import { useState, useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion } from "motion/react";
-import { MessageCircle, MapPin, Sparkles, ArrowRight } from "lucide-react";
-import { MapCanvas } from "@/components/MapCanvas";
-import { PhonePreview } from "@/components/PhonePreview";
-import { EventCard, type EventCardData } from "@/components/EventCard";
+import { motion, AnimatePresence } from "motion/react";
+import { MessageCircle, Users, MapPin } from "lucide-react";
+import { EVENTS } from "@/lib/gather-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Gather — Find your people this weekend" },
+      { title: "Gathr — Find your people this weekend" },
       {
         name: "description",
         content:
-          "Gather connects people through real-world activities and local events. Say what you're doing, we'll match you with people doing the same thing nearby.",
+          "Gathr connects people through real-world activities and local events. Say what you're doing this weekend — we'll find the right few people nearby.",
       },
-      { property: "og:title", content: "Gather — Find your people this weekend" },
+      { property: "og:title", content: "Gathr — Find your people this weekend" },
       {
         property: "og:description",
         content:
@@ -25,286 +24,166 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
-const sampleEvents: EventCardData[] = [
+const tickerStatements = [
+  `${EVENTS[0].totalAttendees} people in Minneapolis are heading to the Vikings game this Sunday`,
+  `${EVENTS[1].totalAttendees} people are hitting the trails at Lebanon Hills this Saturday`,
+  `${EVENTS[2].totalAttendees} families are meeting at Como Park for coffee this weekend`,
+  `${EVENTS[3]?.totalAttendees ?? 19} people are gathering for trivia night at Surly this Friday`,
+];
+
+const valueBlocks = [
   {
-    id: "1",
-    name: "Vikings vs Packers tailgate",
-    location: "US Bank Stadium · Lot C",
-    when: "Sun · 1:00pm",
-    going: 47,
-    community: "Vikings Fans",
-    avatars: ["JM", "SA", "RT", "KP"],
-    live: true,
+    icon: MessageCircle,
+    headline: "Say what you're up to",
+    body: "Tell us what you're doing this weekend — watching the game, hitting a trail, taking the kids somewhere new.",
   },
   {
-    id: "2",
-    name: "Saturday morning trail run",
-    location: "Lebanon Hills · Eagan",
-    when: "Sat · 8:00am",
-    going: 12,
-    community: "Outdoor & Trails",
-    avatars: ["EB", "NL", "TC"],
+    icon: Users,
+    headline: "We'll find your people",
+    body: "Get matched with a small group who's doing the same thing nearby. Not thousands of strangers — just the right few.",
   },
   {
-    id: "3",
-    name: "Kids + coffee at the park",
-    location: "Como Regional Park",
-    when: "Sat · 10:00am",
-    going: 8,
-    community: "Family Adventures",
-    avatars: ["MR", "DH", "AS"],
+    icon: MapPin,
+    headline: "Show up and have fun",
+    body: "Meet at the event, have a great time, and connect with people you'd actually want to hang out with again.",
   },
 ];
 
 function Landing() {
+  const [tickerIndex, setTickerIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTickerIndex((i) => (i + 1) % tickerStatements.length);
+    }, 4000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      {/* Nav */}
-      <header className="sticky top-0 z-30 border-b border-border/60 bg-background/85 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-          <div className="flex items-center gap-2">
-            <span className="grid h-7 w-7 place-items-center rounded-full bg-primary text-primary-foreground">
-              <MapPin className="h-3.5 w-3.5" />
-            </span>
-            <span className="font-serif text-xl text-forest">Gather</span>
-          </div>
-          <nav className="hidden items-center gap-7 text-sm text-muted-foreground md:flex">
-            <a href="#how" className="hover:text-foreground">How it works</a>
-            <a href="#communities" className="hover:text-foreground">Communities</a>
-            <a href="#weekend" className="hover:text-foreground">This weekend</a>
-          </nav>
-          <Link
-            to="/app"
-            className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-warm-sm hover:brightness-105"
-          >
-            Open app
-          </Link>
-        </div>
-      </header>
+    <main className="min-h-screen bg-gathr-cream text-gathr-charcoal">
+      {/* ── Hero ─────────────────────────────────────────── */}
+      <section
+        className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 text-center"
+        style={{
+          background: `
+            radial-gradient(ellipse 80% 60% at 20% 30%, oklch(0.50 0.12 155 / 0.18) 0%, transparent 70%),
+            radial-gradient(ellipse 70% 50% at 80% 70%, oklch(0.50 0.12 155 / 0.12) 0%, transparent 60%),
+            radial-gradient(ellipse 100% 80% at 50% 50%, oklch(0.50 0.12 155 / 0.08) 0%, transparent 100%),
+            var(--color-gathr-cream)
+          `,
+        }}
+      >
+        {/* Grain overlay */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
+            backgroundRepeat: "repeat",
+            backgroundSize: "300px 300px",
+          }}
+        />
 
-      {/* Hero */}
-      <section className="relative overflow-hidden topo-bg">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 md:grid-cols-[1.15fr_1fr] md:py-24">
-          <div>
-            <motion.span
-              initial={{ y: 8, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              className="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground shadow-warm-sm ring-1 ring-border/60"
-            >
-              <span className="h-1.5 w-1.5 rounded-full bg-coral animate-pulse-warm" />
-              47 people in Minneapolis are going to the Vikings game Sunday
-            </motion.span>
-            <motion.h1
-              initial={{ y: 12, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.1 }}
-              className="mt-5 font-serif text-5xl leading-[1.05] text-ink md:text-6xl lg:text-7xl"
-            >
-              Find your people
-              <br />
-              <span className="text-primary">this weekend.</span>
-            </motion.h1>
-            <motion.p
-              initial={{ y: 12, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="mt-5 max-w-lg text-lg text-muted-foreground"
-            >
-              Gather is a local app that connects people through what they're actually doing —
-              not feeds, not followers, not swipes. Say what you're up to. We'll find the
-              folks doing it too.
-            </motion.p>
-            <motion.div
-              initial={{ y: 12, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="mt-8 flex flex-wrap items-center gap-3"
-            >
-              <Link
-                to="/onboarding"
-                className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-base font-semibold text-primary-foreground shadow-warm hover:brightness-105"
-              >
-                See what's happening near you
-                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-              </Link>
-              <span className="text-sm text-muted-foreground">Takes about a minute.</span>
-            </motion.div>
-          </div>
-
-          {/* Hero map */}
+        <div className="relative z-10 flex flex-col items-center gap-5">
+          {/* Wordmark */}
           <motion.div
-            initial={{ scale: 0.96, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 120, damping: 22 }}
-            className="relative"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0 }}
+            className="flex items-center justify-center"
           >
-            <div className="rounded-3xl bg-card p-3 shadow-warm-lg ring-1 ring-border/60">
-              <MapCanvas className="h-[380px] w-full rounded-2xl" showLabels />
-              <div className="flex items-center justify-between px-2 pt-3">
-                <p className="text-xs font-medium text-muted-foreground">
-                  Twin Cities · this weekend
-                </p>
-                <p className="text-xs font-semibold text-forest">28 events live</p>
-              </div>
-            </div>
+            <img src="/gathr-logo.png" alt="Gathr" className="h-24 w-auto md:h-40" />
+          </motion.div>
+
+          {/* Tagline */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.15 }}
+            className="font-body text-xl font-normal text-gathr-charcoal"
+          >
+            Find your people this weekend.
+          </motion.p>
+
+          {/* Ticker */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.3 }}
+            className="h-6 overflow-hidden"
+          >
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={tickerIndex}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.35 }}
+                className="text-base italic text-gathr-warm-gray"
+              >
+                {tickerStatements[tickerIndex]}
+              </motion.p>
+            </AnimatePresence>
+          </motion.div>
+
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.45 }}
+            className="mt-3 flex flex-col items-center gap-3"
+          >
+            <Link
+              to="/onboarding"
+              className="w-full rounded-full bg-gathr-amber px-8 py-4 text-base font-semibold text-white shadow-warm hover:brightness-105 md:w-auto"
+            >
+              See what's happening
+            </Link>
+            <p className="text-sm text-gathr-warm-gray">
+              Free to join. Takes 60 seconds.
+            </p>
+            <Link
+              to="/app"
+              className="text-sm text-gathr-warm-gray underline-offset-2 hover:underline"
+            >
+              Already have an account? Sign in
+            </Link>
           </motion.div>
         </div>
       </section>
 
-      {/* How it works */}
-      <section id="how" className="border-t border-border/60 bg-paper">
-        <div className="mx-auto max-w-6xl px-5 py-20">
-          <div className="mb-12 max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-              How it works
-            </p>
-            <h2 className="mt-2 font-serif text-4xl text-ink md:text-5xl">
-              Three steps. No swiping.
-            </h2>
-          </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            {[
-              {
-                icon: MessageCircle,
-                title: "Say what you're doing",
-                body: "Tell us in your own words — watching the Vikes, hiking with the kids, trying a new ramen spot.",
-              },
-              {
-                icon: MapPin,
-                title: "Find people doing it too",
-                body: "See real activity on a real map. Who's going, what's happening, where to show up.",
-              },
-              {
-                icon: Sparkles,
-                title: "Show up and have fun",
-                body: "Count yourself in, meet your group, and let the weekend take care of itself.",
-              },
-            ].map((step, i) => (
-              <motion.div
-                key={step.title}
-                initial={{ y: 20, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className="rounded-3xl bg-card p-7 shadow-warm-sm ring-1 ring-border/60"
-              >
-                <div className="grid h-11 w-11 place-items-center rounded-2xl bg-primary/15 text-primary">
-                  <step.icon className="h-5 w-5" />
-                </div>
-                <h3 className="mt-5 font-serif text-2xl text-ink">{step.title}</h3>
-                <p className="mt-2 text-muted-foreground">{step.body}</p>
-              </motion.div>
-            ))}
-          </div>
+      {/* ── Value Section ─────────────────────────────────── */}
+      <section className="bg-gathr-cream-dark py-24">
+        <div className="mx-auto grid max-w-5xl gap-12 px-6 md:grid-cols-3 md:gap-8">
+          {valueBlocks.map((block, i) => (
+            <motion.div
+              key={block.headline}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+              className="flex flex-col items-center gap-4 text-center md:items-start md:text-left"
+            >
+              <block.icon className="h-8 w-8 text-gathr-amber" strokeWidth={1.5} />
+              <h2 className="font-serif text-lg text-gathr-charcoal">{block.headline}</h2>
+              <p className="text-base text-gathr-warm-gray">{block.body}</p>
+            </motion.div>
+          ))}
         </div>
       </section>
 
-      {/* Phone preview + this weekend */}
-      <section id="weekend" className="border-t border-border/60">
-        <div className="mx-auto grid max-w-6xl items-center gap-14 px-5 py-20 md:grid-cols-[1fr_1.15fr]">
-          <div className="order-2 md:order-1">
-            <PhonePreview />
-          </div>
-          <div className="order-1 md:order-2">
-            <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-              This weekend · Twin Cities
-            </p>
-            <h2 className="mt-2 font-serif text-4xl text-ink md:text-5xl">
-              A neighborhood bulletin board, in your pocket.
-            </h2>
-            <p className="mt-4 max-w-lg text-muted-foreground">
-              The map glows where people are gathering. Tap a pin, see who's going, and
-              count yourself in. Small groups form automatically so you actually meet folks
-              when you show up.
-            </p>
-            <div className="mt-8 space-y-3">
-              {sampleEvents.map((e) => (
-                <EventCard key={e.id} event={e} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Communities */}
-      <section id="communities" className="border-t border-border/60 bg-paper">
-        <div className="mx-auto max-w-6xl px-5 py-20">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div className="max-w-xl">
-              <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                Starter communities
-              </p>
-              <h2 className="mt-2 font-serif text-4xl text-ink md:text-5xl">
-                Real groups, real activity.
-              </h2>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Twin Cities, MN · expanding soon
-            </p>
-          </div>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { name: "Vikings Fans", members: 1284, active: "12 events this weekend", color: "bg-primary" },
-              { name: "Twins Fans", members: 942, active: "Game night Friday", color: "bg-coral" },
-              { name: "Wild Hockey", members: 612, active: "New thread today", color: "bg-forest" },
-              { name: "Family Adventures", members: 388, active: "4 playdates this week", color: "bg-sage" },
-              { name: "Outdoor & Trails", members: 521, active: "Trail run Saturday", color: "bg-secondary" },
-              { name: "Weekend Pickup Sports", members: 264, active: "Soccer at 6pm", color: "bg-primary" },
-            ].map((c) => (
-              <div
-                key={c.name}
-                className="flex items-stretch overflow-hidden rounded-2xl bg-card shadow-warm-sm ring-1 ring-border/60"
-              >
-                <span className={`w-1.5 shrink-0 ${c.color}`} />
-                <div className="flex-1 p-5">
-                  <h3 className="font-serif text-xl text-ink">{c.name}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">{c.members} members</p>
-                  <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-1 text-xs text-muted-foreground">
-                    <span className="h-1.5 w-1.5 rounded-full bg-sage" /> {c.active}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Closing CTA */}
-      <section className="border-t border-border/60">
-        <div className="mx-auto max-w-4xl px-5 py-24 text-center">
-          <h2 className="font-serif text-4xl text-ink md:text-6xl">
-            Your weekend's already started.
-            <br />
-            <span className="text-primary">Come find your people.</span>
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground">
-            Free to join. No feeds. No followers. Just real people in your neighborhood
-            doing the things you already like to do.
+      {/* ── Footer ────────────────────────────────────────── */}
+      <footer className="bg-gathr-charcoal px-6 py-10">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4">
+          <span className="font-serif text-lg text-gathr-warm-gray">Gathr</span>
+          <nav className="flex gap-6 text-sm text-gathr-warm-gray">
+            <a href="#" className="hover:text-gathr-cream-dark transition-colors">About</a>
+            <a href="#" className="hover:text-gathr-cream-dark transition-colors">Privacy</a>
+            <a href="#" className="hover:text-gathr-cream-dark transition-colors">Terms</a>
+          </nav>
+          <p className="w-full text-sm text-gathr-warm-gray md:w-auto">
+            © {new Date().getFullYear()} Gathr. Twin Cities, MN.
           </p>
-          <Link
-            to="/onboarding"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-base font-semibold text-primary-foreground shadow-warm hover:brightness-105"
-          >
-            See what's happening near you
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </section>
-
-      <footer className="border-t border-border/60 bg-paper">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-8 text-sm text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <span className="grid h-6 w-6 place-items-center rounded-full bg-primary text-primary-foreground">
-              <MapPin className="h-3 w-3" />
-            </span>
-            <span className="font-serif text-base text-forest">Gather</span>
-            <span className="ml-3">Made in the Twin Cities</span>
-          </div>
-          <div className="flex gap-5">
-            <a href="#" className="hover:text-foreground">Privacy</a>
-            <a href="#" className="hover:text-foreground">Terms</a>
-            <a href="#" className="hover:text-foreground">Contact</a>
-          </div>
         </div>
       </footer>
     </main>
