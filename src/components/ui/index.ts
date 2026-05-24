@@ -1,3 +1,16 @@
+/**
+ * Card Style Guide — use exactly these 3 patterns:
+ *
+ * PATTERN A (Content Card): bg-white/80 rounded-2xl shadow-warm p-4
+ *   → Primary content: sessions, threads, groups, goals
+ *
+ * PATTERN B (Inline Row): bg-gathr-cream-dark rounded-xl px-4 py-3
+ *   → List items: recent rounds, compact sessions, settings rows
+ *
+ * PATTERN C (Stat Cell): bg-white/60 rounded-xl shadow-warm-sm p-3
+ *   → Small data blocks: score, frequency, stat counters
+ */
+
 export { GathrButton } from "./GathrButton";
 export type { GathrButtonProps } from "./GathrButton";
 
@@ -6,12 +19,6 @@ export type { GathrAvatarProps } from "./GathrAvatar";
 
 export { AvatarGroup } from "./AvatarGroup";
 export type { AvatarGroupProps, AvatarGroupItem } from "./AvatarGroup";
-
-export { EventCard } from "./EventCard";
-export type { EventCardProps } from "./EventCard";
-
-export { CommunityCard } from "./CommunityCard";
-export type { CommunityCardProps } from "./CommunityCard";
 
 export { ThreadCard } from "./ThreadCard";
 export type { ThreadCardProps } from "./ThreadCard";
@@ -33,9 +40,6 @@ export type { TopBarProps } from "./TopBar";
 
 export { EmptyState } from "./EmptyState";
 export type { EmptyStateProps } from "./EmptyState";
-
-export { GathrSkeleton } from "./GathrSkeleton";
-export type { GathrSkeletonProps } from "./GathrSkeleton";
 
 export { GathrToggle } from "./GathrToggle";
 export type { GathrToggleProps } from "./GathrToggle";

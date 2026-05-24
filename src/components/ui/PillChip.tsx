@@ -15,7 +15,7 @@ export function PillChip({ label, active = false, onToggle, className }: PillChi
       className={cn(
         "h-8 rounded-full px-4 text-sm font-body cursor-pointer select-none transition-colors duration-200",
         active
-          ? "bg-gathr-amber text-white"
+          ? "bg-gathr-forest text-white"
           : "bg-gathr-cream-dark text-gathr-charcoal border border-gathr-warm-gray-light hover:border-gathr-warm-gray",
         className,
       )}

@@ -38,7 +38,7 @@ export function GathrAvatar({
       {/* Amber fallback */}
       <div
         className={cn(
-          "absolute inset-0 flex items-center justify-center rounded-full bg-gathr-amber font-semibold text-white select-none",
+          "absolute inset-0 flex items-center justify-center rounded-full bg-gathr-forest font-semibold text-white select-none",
           text,
         )}
         aria-hidden="true"

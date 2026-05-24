@@ -1,7 +1,5 @@
-import { motion } from "motion/react";
 import { GathrAvatar, type GathrAvatarProps } from "./GathrAvatar";
 import { cn } from "@/lib/utils";
-import { STAGGER_CHILDREN } from "@/lib/design-tokens";
 
 export interface AvatarGroupItem
   extends Pick<GathrAvatarProps, "src" | "initials" | "online" | "alt"> {}
@@ -31,42 +29,27 @@ export function AvatarGroup({
   const { dim, text } = sizeMap[size];
 
   return (
-    <motion.div
-      className={cn("flex items-center", className)}
-      initial="initial"
-      animate="animate"
-      variants={{
-        animate: { transition: { staggerChildren: STAGGER_CHILDREN } },
-      }}
-    >
+    <div className={cn("flex items-center", className)}>
       {visible.map((a, i) => (
-        <motion.div
+        <div
           key={i}
           style={{ marginLeft: i === 0 ? 0 : -8, zIndex: visible.length - i }}
-          variants={{
-            initial: { opacity: 0, x: -8 },
-            animate: { opacity: 1, x: 0, transition: { duration: 0.2 } },
-          }}
         >
           <GathrAvatar {...a} size={size} />
-        </motion.div>
+        </div>
       ))}
 
       {overflow > 0 && (
-        <motion.div
+        <div
           style={{ marginLeft: -8, zIndex: 0, width: dim, height: dim }}
-          variants={{
-            initial: { opacity: 0, x: -8 },
-            animate: { opacity: 1, x: 0, transition: { duration: 0.2 } },
-          }}
           className={cn(
-            "flex shrink-0 items-center justify-center rounded-full bg-gathr-amber font-semibold text-white ring-2 ring-gathr-cream",
+            "flex shrink-0 items-center justify-center rounded-full bg-gathr-forest font-semibold text-white ring-2 ring-gathr-cream",
             text,
           )}
         >
           +{overflow}
-        </motion.div>
+        </div>
       )}
-    </motion.div>
+    </div>
   );
 }

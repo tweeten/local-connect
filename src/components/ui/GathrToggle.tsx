@@ -17,8 +17,8 @@ export function GathrToggle({ checked, onChange, label, className }: GathrToggle
       aria-label={label}
       onClick={() => onChange(!checked)}
       className={cn(
-        "relative flex shrink-0 cursor-pointer items-center rounded-full p-[3px] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gathr-amber focus-visible:ring-offset-2",
-        checked ? "bg-gathr-amber" : "bg-gathr-warm-gray-light",
+        "relative flex shrink-0 cursor-pointer items-center rounded-full p-[3px] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gathr-forest focus-visible:ring-offset-2",
+        checked ? "bg-gathr-forest" : "bg-gathr-warm-gray-light",
         className,
       )}
       style={{ width: 48, height: 28 }}

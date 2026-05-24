@@ -238,7 +238,7 @@ function Onboarding() {
                     onChange={(e) => setName(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && canProceed && goNext()}
                     placeholder="Your first name"
-                    className="mt-10 w-full h-14 bg-transparent text-xl text-gathr-charcoal border-b-2 border-gathr-warm-gray-light focus:border-gathr-amber focus:outline-none transition-colors placeholder:text-gathr-warm-gray-light"
+                    className="mt-10 w-full h-14 bg-transparent text-xl text-gathr-charcoal border-b-2 border-gathr-warm-gray-light focus:border-gathr-forest focus:outline-none transition-colors placeholder:text-gathr-warm-gray-light"
                   />
                 </div>
               )}
@@ -260,7 +260,7 @@ function Onboarding() {
                       if (e.target.value) setAreaChip("");
                     }}
                     placeholder="Home course or area (e.g. Eastview, Apple Valley)"
-                    className="mt-8 w-full h-14 bg-transparent text-base text-gathr-charcoal border-b-2 border-gathr-warm-gray-light focus:border-gathr-amber focus:outline-none transition-colors placeholder:text-gathr-warm-gray-light"
+                    className="mt-8 w-full h-14 bg-transparent text-base text-gathr-charcoal border-b-2 border-gathr-warm-gray-light focus:border-gathr-forest focus:outline-none transition-colors placeholder:text-gathr-warm-gray-light"
                   />
                   <div className="mt-5 flex flex-wrap gap-2">
                     {AREA_CHIPS.map((area) => (
@@ -354,7 +354,7 @@ function Onboarding() {
                     onChange={(e) => setThirdObject(e.target.value)}
                     placeholder="Break 90 by end of summer, play every Saturday morning, find a regular foursome, get good enough to not lose balls..."
                     rows={4}
-                    className="mt-6 w-full min-h-[120px] resize-none rounded-card-sm border border-gathr-warm-gray-light focus:border-gathr-amber focus:outline-none p-4 bg-transparent text-base text-gathr-charcoal placeholder:text-gathr-warm-gray-light transition-colors"
+                    className="mt-6 w-full min-h-[120px] resize-none rounded-card-sm border border-gathr-warm-gray-light focus:border-gathr-forest focus:outline-none p-4 bg-transparent text-base text-gathr-charcoal placeholder:text-gathr-warm-gray-light transition-colors"
                   />
 
                   <div className="mt-4 flex flex-wrap gap-2">
@@ -384,7 +384,7 @@ function Onboarding() {
 
                   <h1 className="font-display text-2xl text-gathr-charcoal leading-snug">
                     We found your people,{" "}
-                    <span className="text-gathr-amber">{name || "friend"}</span>
+                    <span className="text-gathr-forest">{name || "friend"}</span>
                   </h1>
 
                   {/* Match group card */}

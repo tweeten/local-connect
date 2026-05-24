@@ -1,6 +1,7 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { Home, Users, Target, User } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useGathr } from "@/lib/GathrContext";
 
 export interface BottomNavProps {
   userInitials?: string;
@@ -10,7 +11,7 @@ export interface BottomNavProps {
 const tabClass = (active: boolean) =>
   cn(
     "flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl transition-colors",
-    active ? "text-gathr-amber" : "text-gathr-warm-gray hover:text-gathr-charcoal",
+    active ? "text-gathr-forest" : "text-gathr-warm-gray hover:text-gathr-charcoal",
   );
 
 const labelClass = (active: boolean) =>
@@ -18,6 +19,8 @@ const labelClass = (active: boolean) =>
 
 export function BottomNav(_props: BottomNavProps) {
   const { pathname } = useLocation();
+  const { state } = useGathr();
+  const activitySlug = state.activities[0]?.slug ?? "golf";
 
   const homeActive = pathname === "/home";
   const groupsActive = pathname === "/groups" || pathname.startsWith("/group/");
@@ -43,7 +46,7 @@ export function BottomNav(_props: BottomNavProps) {
 
       <Link
         to="/activity/$activitySlug"
-        params={{ activitySlug: "golf" }}
+        params={{ activitySlug }}
         aria-label="Activity"
         aria-current={activityActive ? "page" : undefined}
         className={tabClass(activityActive)}

@@ -95,6 +95,7 @@ function SettingsScreen() {
       <TopBar back="/profile" title="Settings" scrolled />
 
       <main className="flex-1 overflow-y-auto pt-16 pb-20">
+        <div className="lg:max-w-2xl lg:mx-auto">
         {/* Profile */}
         <Section title="Profile">
           <SettingsRow
@@ -183,6 +184,7 @@ function SettingsScreen() {
         </Section>
 
         <div className="h-8" />
+        </div>
       </main>
 
       {/* Delete account modal — inside single root, fixed positioning handles viewport placement */}

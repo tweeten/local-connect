@@ -13,20 +13,6 @@ import type {
   UserActivityProfile,
 } from "./activity-framework";
 
-// ─── Legacy Types ─────────────────────────────────────────────────────────────
-
-export interface LegacyUser {
-  id: string;
-  firstName: string;
-  avatarUrl?: string;
-  neighborhood: string;
-  memberSince: string;
-  eventsAttended: number;
-  communitiesCount: number;
-  connectionsCount: number;
-  streakWeeks: number;
-}
-
 export interface GathrEvent {
   id: string;
   name: string;
@@ -37,12 +23,12 @@ export interface GathrEvent {
   dateTime: string;
   communityId: string;
   communityName: string;
-  attendees: LegacyUser[];
+  attendees: User[];
   totalAttendees: number;
   isSoon: boolean;
   isAttending: boolean;
   description: string;
-  host: LegacyUser;
+  host: User;
 }
 
 export interface Community {
@@ -61,7 +47,7 @@ export interface Community {
 // ─── Helper: accent color → Tailwind bg class ─────────────────────────────────
 
 export const ACCENT_COLOR_CLASS: Record<Community["accentColor"], string> = {
-  amber: "bg-gathr-amber",
+  amber: "bg-gathr-forest",
   sage: "bg-gathr-sage",
   coral: "bg-gathr-coral",
   terracotta: "bg-gathr-terracotta",
@@ -87,42 +73,8 @@ export function formatEventDate(dateTime: string): string {
   return `${day} · ${time}`;
 }
 
-// ─── Legacy Users ────────────────────────────────────────────────────────────
-
-const LEGACY_CURRENT_USER: LegacyUser = {
-  id: "u-alex",
-  firstName: "Alex",
-  neighborhood: "Eagan",
-  memberSince: "Aug 2024",
-  eventsAttended: 12,
-  communitiesCount: 5,
-  connectionsCount: 8,
-  streakWeeks: 4,
-};
-
-const LEGACY_USERS: LegacyUser[] = [
-  LEGACY_CURRENT_USER,
-  { id: "u-sam", firstName: "Sam", neighborhood: "Minneapolis", memberSince: "Jan 2024", eventsAttended: 23, communitiesCount: 4, connectionsCount: 17, streakWeeks: 8 },
-  { id: "u-jordan", firstName: "Jordan", neighborhood: "St. Paul", memberSince: "Mar 2024", eventsAttended: 18, communitiesCount: 3, connectionsCount: 11, streakWeeks: 6 },
-  { id: "u-ryan", firstName: "Ryan", neighborhood: "Eagan", memberSince: "Sep 2023", eventsAttended: 31, communitiesCount: 6, connectionsCount: 24, streakWeeks: 12 },
-  { id: "u-kelly", firstName: "Kelly", neighborhood: "Bloomington", memberSince: "Feb 2024", eventsAttended: 9, communitiesCount: 2, connectionsCount: 6, streakWeeks: 3 },
-  { id: "u-ben-n", firstName: "Ben", neighborhood: "Edina", memberSince: "Nov 2023", eventsAttended: 15, communitiesCount: 4, connectionsCount: 13, streakWeeks: 5 },
-  { id: "u-emily", firstName: "Emily", neighborhood: "Minneapolis", memberSince: "Apr 2024", eventsAttended: 7, communitiesCount: 3, connectionsCount: 5, streakWeeks: 2 },
-  { id: "u-eric", firstName: "Eric", neighborhood: "Lakeville", memberSince: "Jun 2023", eventsAttended: 41, communitiesCount: 5, connectionsCount: 29, streakWeeks: 16 },
-  { id: "u-nora", firstName: "Nora", neighborhood: "St. Paul", memberSince: "Jan 2025", eventsAttended: 4, communitiesCount: 2, connectionsCount: 3, streakWeeks: 1 },
-  { id: "u-tyler", firstName: "Tyler", neighborhood: "Maple Grove", memberSince: "Oct 2023", eventsAttended: 22, communitiesCount: 4, connectionsCount: 18, streakWeeks: 9 },
-  { id: "u-maya", firstName: "Maya", neighborhood: "St. Paul", memberSince: "Mar 2024", eventsAttended: 11, communitiesCount: 3, connectionsCount: 8, streakWeeks: 4 },
-  { id: "u-derek", firstName: "Derek", neighborhood: "Minneapolis", memberSince: "Jul 2023", eventsAttended: 35, communitiesCount: 7, connectionsCount: 31, streakWeeks: 14 },
-  { id: "u-anna", firstName: "Anna", neighborhood: "Plymouth", memberSince: "Dec 2023", eventsAttended: 16, communitiesCount: 3, connectionsCount: 12, streakWeeks: 6 },
-  { id: "u-ben-l", firstName: "Ben", neighborhood: "Minneapolis", memberSince: "May 2023", eventsAttended: 44, communitiesCount: 5, connectionsCount: 38, streakWeeks: 18 },
-  { id: "u-grace", firstName: "Grace", neighborhood: "Minneapolis", memberSince: "Aug 2023", eventsAttended: 28, communitiesCount: 4, connectionsCount: 21, streakWeeks: 11 },
-  { id: "u-vic", firstName: "Vic", neighborhood: "St. Paul", memberSince: "Feb 2024", eventsAttended: 13, communitiesCount: 3, connectionsCount: 9, streakWeeks: 5 },
-  { id: "u-james", firstName: "James", neighborhood: "Burnsville", memberSince: "Sep 2024", eventsAttended: 6, communitiesCount: 2, connectionsCount: 4, streakWeeks: 2 },
-];
-
-export const USER_BY_ID = Object.fromEntries(LEGACY_USERS.map((u) => [u.id, u]));
-
 // ─── Communities ─────────────────────────────────────────────────────────────
+// TODO: These will eventually be replaced by activity-based discovery
 
 export const COMMUNITIES: Community[] = [
   { id: "vikings", name: "Vikings Fans — Twin Cities", description: "Sundays, Skol chants, and stadium energy.", memberCount: 1284, accentColor: "coral", activityPulse: "Game day tailgate this Sunday", isJoined: true, category: "Sports", weeklyGrowth: 31 },
@@ -138,58 +90,6 @@ export const COMMUNITIES: Community[] = [
   { id: "arts-music", name: "Arts & Music — Twin Cities", description: "Gallery openings, live music, and creative meetups.", memberCount: 276, accentColor: "amber", activityPulse: "Open mic at Amsterdam tonight", isJoined: false, suggestionLine: "New community — 40 joined this week", category: "Arts & culture", weeklyGrowth: 40 },
   { id: "theater", name: "Twin Cities Theater Lovers", description: "Guthrie regulars, Fringe devotees, and improv fans.", memberCount: 154, accentColor: "terracotta", activityPulse: "Fringe Festival tickets — group discount", isJoined: false, suggestionLine: "Popular with Arts & Music members", category: "Arts & culture", weeklyGrowth: 8 },
 ];
-
-// ─── Events ──────────────────────────────────────────────────────────────────
-
-function u(...ids: string[]): LegacyUser[] {
-  return ids.map((id) => USER_BY_ID[id]).filter(Boolean);
-}
-
-export const EVENTS: GathrEvent[] = [
-  { id: "vikes", name: "Vikings vs Packers tailgate", communityId: "vikings", communityName: "Vikings Fans", location: "US Bank Stadium · Lot C", address: "401 Chicago Ave, Minneapolis, MN 55415", lat: 44.9735, lng: -93.2575, dateTime: "2026-05-24T13:00:00", attendees: u("u-sam", "u-anna", "u-ryan", "u-kelly", "u-ben-n", "u-emily"), totalAttendees: 47, isSoon: true, isAttending: false, description: "Pulling up early to Lot C around 10. Blue tent, brats on the grill, bring a chair. Heading in together around 12:30.", host: USER_BY_ID["u-sam"] },
-  { id: "trail", name: "Saturday trail run", communityId: "outdoor", communityName: "Outdoor & Trails", location: "Lebanon Hills · Eagan", address: "860 Cliff Rd, Eagan, MN 55123", lat: 44.8062, lng: -93.2084, dateTime: "2026-05-23T08:00:00", attendees: u("u-eric", "u-nora", "u-tyler", "u-maya"), totalAttendees: 12, isSoon: true, isAttending: false, description: "Easy 6 miles, coffee after at the trailhead. All paces welcome.", host: USER_BY_ID["u-eric"] },
-  { id: "park", name: "Kids + coffee at the park", communityId: "family", communityName: "Family Adventures", location: "Como Regional Park", address: "1199 Midway Pkwy, St Paul, MN 55103", lat: 44.9813, lng: -93.1517, dateTime: "2026-05-23T10:00:00", attendees: u("u-maya", "u-derek", "u-anna"), totalAttendees: 8, isSoon: true, isAttending: false, description: "Meet at the big playground. Bringing donuts and a thermos.", host: USER_BY_ID["u-maya"] },
-  { id: "trivia", name: "Trivia night @ Surly", communityId: "food", communityName: "Food & Drink", location: "Surly Brewing · Mpls", address: "520 Malcolm Ave SE, Minneapolis, MN 55414", lat: 44.9732, lng: -93.2212, dateTime: "2026-05-28T19:00:00", attendees: u("u-ben-l", "u-vic", "u-james", "u-grace"), totalAttendees: 19, isSoon: false, isAttending: false, description: "Teams of 4–6. Grabbing the big booth in back. We're 'The Hot Dish'.", host: USER_BY_ID["u-ben-l"] },
-  { id: "bbq", name: "Backyard BBQ in Eagan", communityId: "family", communityName: "Family Adventures", location: "Private backyard · Eagan", address: "Eagan, MN 55122", lat: 44.804, lng: -93.167, dateTime: "2026-05-24T16:00:00", attendees: u("u-alex", "u-sam", "u-ryan", "u-kelly", "u-james", "u-emily"), totalAttendees: 18, isSoon: false, isAttending: true, description: "Kids welcome. Bring a dish to share. Pool will be open. Dogs too.", host: USER_BY_ID["u-alex"] },
-];
-
-// ─── Connections map ─────────────────────────────────────────────────────────
-
-export const CONNECTIONS: Record<string, string[]> = {
-  "u-alex":   ["u-sam", "u-ryan", "u-kelly", "u-james", "u-emily", "u-jordan", "u-ben-n", "u-tyler"],
-  "u-sam":    ["u-alex", "u-ryan", "u-jordan", "u-ben-l", "u-derek", "u-anna", "u-kelly", "u-ben-n"],
-  "u-jordan": ["u-sam", "u-ryan", "u-emily", "u-anna", "u-grace", "u-alex"],
-  "u-ryan":   ["u-alex", "u-sam", "u-jordan", "u-kelly", "u-ben-n", "u-emily", "u-derek", "u-tyler"],
-  "u-kelly":  ["u-alex", "u-ryan", "u-emily", "u-anna", "u-james", "u-derek", "u-ben-n", "u-vic"],
-  "u-ben-n":  ["u-sam", "u-ryan", "u-kelly", "u-derek", "u-james", "u-vic", "u-alex"],
-  "u-emily":  ["u-ryan", "u-jordan", "u-kelly", "u-anna", "u-james", "u-maya", "u-alex"],
-  "u-eric":   ["u-nora", "u-tyler", "u-maya", "u-anna", "u-derek"],
-  "u-nora":   ["u-eric", "u-maya", "u-vic", "u-anna"],
-  "u-tyler":  ["u-eric", "u-ryan", "u-james", "u-derek", "u-anna", "u-alex"],
-  "u-maya":   ["u-eric", "u-nora", "u-derek", "u-kelly", "u-emily", "u-james"],
-  "u-derek":  ["u-ben-l", "u-grace", "u-eric", "u-kelly", "u-ben-n", "u-vic", "u-tyler", "u-sam"],
-  "u-anna":   ["u-jordan", "u-emily", "u-kelly", "u-nora", "u-grace", "u-ben-n", "u-eric", "u-tyler"],
-  "u-ben-l":  ["u-ben-n", "u-vic", "u-james", "u-grace", "u-derek", "u-sam"],
-  "u-grace":  ["u-tyler", "u-derek", "u-ben-l", "u-anna", "u-jordan", "u-vic"],
-  "u-vic":    ["u-derek", "u-kelly", "u-james", "u-ben-l", "u-grace", "u-nora", "u-ben-n"],
-  "u-james":  ["u-kelly", "u-ben-n", "u-vic", "u-tyler", "u-maya", "u-emily", "u-alex"],
-};
-
-export function getMutualConnections(userAId: string, userBId: string): LegacyUser[] {
-  const aConns = new Set(CONNECTIONS[userAId] ?? []);
-  const bConns = new Set(CONNECTIONS[userBId] ?? []);
-  return [...aConns].filter((id) => bConns.has(id)).map((id) => USER_BY_ID[id]).filter(Boolean);
-}
-
-export function getSharedCommunities(userAId: string, userBId: string): string[] {
-  const aEventCommunities = new Set(
-    EVENTS.filter((e) => e.attendees.some((att) => att.id === userAId) || e.host.id === userAId).map((e) => e.communityId),
-  );
-  const bEventCommunities = new Set(
-    EVENTS.filter((e) => e.attendees.some((att) => att.id === userBId) || e.host.id === userBId).map((e) => e.communityId),
-  );
-  return [...aEventCommunities].filter((id) => bEventCommunities.has(id));
-}
 
 // ─── ChatMessage ──────────────────────────────────────────────────────────────
 
@@ -703,6 +603,102 @@ export const USERS: User[] = [
         },
       ),
     ],
+  },
+];
+
+// ─── Events ──────────────────────────────────────────────────────────────────
+// Internal lookup for event attendee/host resolution. Not exported.
+const USER_LOOKUP: Record<string, User> = Object.fromEntries(USERS.map((u) => [u.id, u]));
+
+function eu(...ids: string[]): User[] {
+  return ids.map((id) => USER_LOOKUP[id]).filter(Boolean) as User[];
+}
+
+export const EVENTS: GathrEvent[] = [
+  {
+    id: "vikes",
+    name: "Vikings vs Packers tailgate",
+    communityId: "vikings",
+    communityName: "Vikings Fans",
+    location: "US Bank Stadium · Lot C",
+    address: "401 Chicago Ave, Minneapolis, MN 55415",
+    lat: 44.9735,
+    lng: -93.2575,
+    dateTime: "2026-05-24T13:00:00",
+    attendees: eu("u-sam", "u-devin", "u-ryan", "u-keisha", "u-brett", "u-lena"),
+    totalAttendees: 47,
+    isSoon: true,
+    isAttending: false,
+    description: "Pulling up early to Lot C around 10. Blue tent, brats on the grill, bring a chair. Heading in together around 12:30.",
+    host: USER_LOOKUP["u-sam"],
+  },
+  {
+    id: "trail",
+    name: "Saturday trail run",
+    communityId: "outdoor",
+    communityName: "Outdoor & Trails",
+    location: "Lebanon Hills · Eagan",
+    address: "860 Cliff Rd, Eagan, MN 55123",
+    lat: 44.8062,
+    lng: -93.2084,
+    dateTime: "2026-05-23T08:00:00",
+    attendees: eu("u-joel", "u-priya", "u-marcus", "u-chris"),
+    totalAttendees: 12,
+    isSoon: true,
+    isAttending: false,
+    description: "Easy 6 miles, coffee after at the trailhead. All paces welcome.",
+    host: USER_LOOKUP["u-joel"],
+  },
+  {
+    id: "park",
+    name: "Kids + coffee at the park",
+    communityId: "family",
+    communityName: "Family Adventures",
+    location: "Como Regional Park",
+    address: "1199 Midway Pkwy, St Paul, MN 55103",
+    lat: 44.9813,
+    lng: -93.1517,
+    dateTime: "2026-05-23T10:00:00",
+    attendees: eu("u-chris", "u-derek", "u-devin"),
+    totalAttendees: 8,
+    isSoon: true,
+    isAttending: false,
+    description: "Meet at the big playground. Bringing donuts and a thermos.",
+    host: USER_LOOKUP["u-chris"],
+  },
+  {
+    id: "trivia",
+    name: "Trivia night @ Surly",
+    communityId: "food",
+    communityName: "Food & Drink",
+    location: "Surly Brewing · Mpls",
+    address: "520 Malcolm Ave SE, Minneapolis, MN 55414",
+    lat: 44.9732,
+    lng: -93.2212,
+    dateTime: "2026-05-28T19:00:00",
+    attendees: eu("u-brett", "u-priya", "u-chris", "u-lena"),
+    totalAttendees: 19,
+    isSoon: false,
+    isAttending: false,
+    description: "Teams of 4–6. Grabbing the big booth in back. We're 'The Hot Dish'.",
+    host: USER_LOOKUP["u-brett"],
+  },
+  {
+    id: "bbq",
+    name: "Backyard BBQ in Eagan",
+    communityId: "family",
+    communityName: "Family Adventures",
+    location: "Private backyard · Eagan",
+    address: "Eagan, MN 55122",
+    lat: 44.804,
+    lng: -93.167,
+    dateTime: "2026-05-24T16:00:00",
+    attendees: eu("u-current", "u-sam", "u-ryan", "u-keisha", "u-chris", "u-lena"),
+    totalAttendees: 18,
+    isSoon: false,
+    isAttending: true,
+    description: "Kids welcome. Bring a dish to share. Pool will be open. Dogs too.",
+    host: USER_LOOKUP["u-current"],
   },
 ];
 

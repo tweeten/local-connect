@@ -1,7 +1,5 @@
-import { motion } from "motion/react";
 import { MessageSquare, ArrowUp } from "lucide-react";
 import { GathrAvatar, type GathrAvatarProps } from "./GathrAvatar";
-import { CARD_PRESS } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 
 export interface ThreadCardProps {
@@ -34,12 +32,10 @@ export function ThreadCard({
   className,
 }: ThreadCardProps) {
   return (
-    <motion.div
-      whileTap={CARD_PRESS.whileTap}
-      transition={CARD_PRESS.transition}
+    <div
       onClick={() => onPress?.(id)}
       className={cn(
-        "flex gap-3 bg-gathr-cream-dark rounded-card-sm shadow-warm p-4 cursor-pointer",
+        "flex gap-3 bg-white/80 rounded-2xl shadow-warm p-4 cursor-pointer active:bg-black/[0.03] transition-colors",
         className,
       )}
     >
@@ -72,7 +68,7 @@ export function ThreadCard({
               }}
               className={cn(
                 "ml-auto flex items-center gap-1 transition-colors",
-                upvoted ? "text-gathr-amber" : "text-gathr-warm-gray hover:text-gathr-amber",
+                upvoted ? "text-gathr-forest" : "text-gathr-warm-gray hover:text-gathr-forest",
               )}
               aria-label="Upvote thread"
             >
@@ -82,6 +78,6 @@ export function ThreadCard({
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

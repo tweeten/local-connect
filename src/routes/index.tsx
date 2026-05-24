@@ -131,7 +131,7 @@ function Landing() {
           >
             <Link
               to="/onboarding"
-              className="inline-flex h-14 items-center justify-center rounded-full bg-gathr-amber px-8 text-lg font-semibold text-white shadow-warm transition-colors hover:bg-gathr-amber-light"
+              className="inline-flex h-14 items-center justify-center rounded-full bg-gathr-forest px-8 text-lg font-semibold text-white shadow-warm transition-colors hover:bg-gathr-forest-light"
             >
               Find your foursome
             </Link>
@@ -167,7 +167,7 @@ function Landing() {
                 transition={{ duration: 0.4, delay: i * 0.1 }}
                 className="flex flex-col items-center gap-4 text-center md:items-start md:text-left"
               >
-                <block.icon className="h-8 w-8 text-gathr-amber" strokeWidth={1.5} />
+                <block.icon className="h-8 w-8 text-gathr-forest" strokeWidth={1.5} />
                 <h3 className="font-serif text-lg text-gathr-charcoal">{block.headline}</h3>
                 <p className="text-base text-gathr-warm-gray">{block.body}</p>
               </motion.div>
@@ -184,7 +184,7 @@ function Landing() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
-            className="font-body text-sm font-semibold uppercase tracking-widest text-gathr-amber"
+            className="font-body text-sm font-semibold uppercase tracking-widest text-gathr-forest"
           >
             Right now in the Twin Cities
           </motion.p>
@@ -233,7 +233,7 @@ function Landing() {
                 transition={{ duration: 0.35, delay: i * 0.07 }}
                 className={`relative flex flex-col items-center gap-2 rounded-card-lg p-4 text-center shadow-warm-sm ${
                   activity.active
-                    ? "bg-gathr-amber text-white"
+                    ? "bg-gathr-forest text-white"
                     : "bg-gathr-cream text-gathr-warm-gray-light"
                 }`}
               >

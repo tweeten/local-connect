@@ -21,7 +21,7 @@ export function SectionHeader({
         <motion.button
           onClick={onLinkClick}
           whileTap={{ scale: 0.98 }}
-          className="text-sm text-gathr-amber hover:underline font-body"
+          className="text-sm text-gathr-forest hover:underline font-body"
         >
           {linkLabel}
         </motion.button>

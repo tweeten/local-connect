@@ -12,12 +12,12 @@
   --font-serif: "Fraunces", Georgia, serif;
 
   /* ── Gathr brand color tokens ── */
-  --color-gathr-amber:           #2D5F3F;
-  --color-gathr-amber-light:     #3A7A52;
-  --color-gathr-amber-glow:      #2D5F3F33;
-  --color-gathr-forest:          #D4893F;
-  --color-gathr-forest-light:    #E8A85C;
-  --color-gathr-sage:            #E8A85C;
+  --color-gathr-forest:          #2D5F3F;
+  --color-gathr-forest-light:    #3A7A52;
+  --color-gathr-forest-glow:     #2D5F3F33;
+  --color-gathr-amber:           #D4893F;
+  --color-gathr-amber-light:     #E8A85C;
+  --color-gathr-sage:            #87A878;
   --color-gathr-coral:           #E07A5F;
   --color-gathr-cream:           #FAF7F2;
   --color-gathr-cream-dark:      #F0EBE3;

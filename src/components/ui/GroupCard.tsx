@@ -1,10 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { motion } from "motion/react";
 import { formatDistanceToNow } from "date-fns";
 import { ChevronRight } from "lucide-react";
 import type { MatchGroup, User, Activity } from "@/lib/activity-framework";
 import { AvatarGroup } from "./AvatarGroup";
-import { CARD_PRESS } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 
 export interface GroupCardProps {
@@ -74,12 +72,12 @@ export function GroupCard({
 
   if (compact) {
     return (
-      <motion.div {...CARD_PRESS} className={cn("w-full", className)}>
+      <div className={cn("w-full active:bg-black/[0.03] transition-colors", className)}>
         <Link
           to="/group/$groupId"
           params={{ groupId: group.id }}
           onClick={handlePress}
-          className="flex items-center gap-3 rounded-card-lg bg-gathr-cream-dark shadow-warm px-4 py-3"
+          className="flex items-center gap-3 bg-white/80 rounded-2xl shadow-warm p-4"
         >
           <AvatarGroup avatars={avatars} max={3} size="xs" className="shrink-0" />
 
@@ -106,21 +104,20 @@ export function GroupCard({
 
           <ChevronRight size={16} className="text-gathr-warm-gray shrink-0" />
         </Link>
-      </motion.div>
+      </div>
     );
   }
 
   return (
-    <motion.div
-      {...CARD_PRESS}
-      className={cn("shrink-0", className)}
+    <div
+      className={cn("shrink-0 active:bg-black/[0.03] transition-colors", className)}
       style={{ width: 280 }}
     >
       <Link
         to="/group/$groupId"
         params={{ groupId: group.id }}
         onClick={handlePress}
-        className="relative block rounded-card-lg bg-gathr-cream-dark shadow-warm p-4 h-full"
+          className="relative block bg-white/80 rounded-2xl shadow-warm p-4 h-full"
       >
         {unreadCount > 0 && (
           <span
@@ -134,7 +131,7 @@ export function GroupCard({
           <p className="font-body font-semibold text-base text-gathr-charcoal flex-1 truncate leading-tight">
             {group.name}
           </p>
-          <span className="shrink-0 rounded-full bg-gathr-amber/10 text-gathr-amber px-2 py-0.5 text-[10px] font-body font-semibold">
+          <span className="shrink-0 rounded-full bg-gathr-forest/10 text-gathr-forest px-2 py-0.5 text-[10px] font-body font-semibold">
             {activity.name}
           </span>
         </div>
@@ -158,7 +155,7 @@ export function GroupCard({
             </span>
           )}
         </div>
-      </Link>
-    </motion.div>
+        </Link>
+    </div>
   );
 }

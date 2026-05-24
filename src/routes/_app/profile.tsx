@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Settings, Flame, MapPin, Users, Calendar } from "lucide-react";
+import { Settings, MapPin, Users, Calendar, Flag } from "lucide-react";
 import {
   TopBar,
   GathrAvatar,
@@ -9,10 +9,10 @@ import {
 import {
   ACCENT_COLOR_CLASS,
   COMMUNITIES,
-  CONNECTIONS,
-  EVENTS,
-  USER_BY_ID,
-  formatEventDate,
+  USERS,
+  MATCH_GROUPS,
+  SCHEDULED_SESSIONS,
+  RECENT_SESSIONS,
 } from "@/lib/mock-data";
 import { useGathr } from "@/lib/GathrContext";
 
@@ -25,16 +25,35 @@ function ProfileScreen() {
   const { state } = useGathr();
   const { currentUser } = state;
 
+  // Communities (legacy — TODO: Replace with activity-based discovery)
   const joinedCommunities = COMMUNITIES.filter((c) => c.isJoined);
-  const attendingEvents = EVENTS.filter((e) => e.isAttending).slice(0, 2);
-  const recentActivity = EVENTS.slice(0, 5);
 
-  const connectionIds = CONNECTIONS[currentUser.id] ?? [];
-  const connections = connectionIds
-    .map((id) => USER_BY_ID[id])
-    .filter(Boolean)
-    .slice(0, 8);
-  const hasMoreConnections = connectionIds.length > 8;
+  // Groups the current user belongs to
+  const myGroups = state.matchGroups.filter((g) =>
+    g.memberIds.includes(currentUser.id),
+  );
+  const myGroupIds = new Set(myGroups.map((g) => g.id));
+
+  // "Up next" — upcoming tee times from the current user's groups
+  const upcomingSessions = SCHEDULED_SESSIONS.filter(
+    (s) => myGroupIds.has(s.matchGroupId) && s.status === "upcoming",
+  ).slice(0, 2);
+
+  // "Recent activity" — past sessions from the current user's groups
+  const recentSessions = RECENT_SESSIONS.filter(
+    (s) => myGroupIds.has(s.matchGroupId),
+  ).slice(0, 5);
+
+  // "People in your groups" — other members across all of the current user's groups
+  const groupMemberIds = new Set(
+    myGroups.flatMap((g) => g.memberIds).filter((id) => id !== currentUser.id),
+  );
+  const groupMembers = USERS.filter((u) => groupMemberIds.has(u.id)).slice(0, 8);
+  const hasMoreMembers = groupMemberIds.size > 8;
+
+  // Helper: get group name by ID
+  const groupName = (groupId: string) =>
+    MATCH_GROUPS.find((g) => g.id === groupId)?.name ?? groupId;
 
   return (
     <div className="h-full flex flex-col bg-background">
@@ -54,7 +73,7 @@ function ProfileScreen() {
       />
 
       <main className="flex-1 overflow-y-auto pt-16 pb-20">
-        <div className="w-full">
+        <div className="w-full lg:max-w-2xl lg:mx-auto">
           <div>
 
             {/* ── Header ─────────────────────────────────────────── */}
@@ -76,7 +95,7 @@ function ProfileScreen() {
                 </h1>
                 <button
                   onClick={() => alert("Edit profile coming soon!")}
-                  className="text-sm font-medium text-gathr-amber hover:underline leading-none"
+                  className="text-sm font-medium text-gathr-forest hover:underline leading-none"
                 >
                   Edit
                 </button>
@@ -89,17 +108,21 @@ function ProfileScreen() {
 
             {/* ── Stats Row ──────────────────────────────────────── */}
             <section className="px-5 py-4">
-              <div className="flex items-center justify-around">
-                <StatCounter value={currentUser.eventsAttended} label="events" />
-                <div className="h-8 w-px bg-gathr-warm-gray-light/60" />
-                <StatCounter value={currentUser.communitiesCount} label="communities" />
-                <div className="h-8 w-px bg-gathr-warm-gray-light/60" />
-                <StatCounter value={currentUser.connectionsCount} label="connections" />
+              <div className="grid grid-cols-3 gap-2">
+                <div className="bg-white/60 rounded-xl shadow-warm-sm p-3 flex justify-center">
+                  <StatCounter value={currentUser.eventsAttended} label="events" />
+                </div>
+                <div className="bg-white/60 rounded-xl shadow-warm-sm p-3 flex justify-center">
+                  <StatCounter value={currentUser.communitiesCount} label="communities" />
+                </div>
+                <div className="bg-white/60 rounded-xl shadow-warm-sm p-3 flex justify-center">
+                  <StatCounter value={currentUser.connectionsCount} label="connections" />
+                </div>
               </div>
 
               {currentUser.streakWeeks > 0 && (
                 <div className="mt-3 flex justify-center">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-gathr-amber/10 px-3 py-1 text-sm font-medium text-gathr-amber">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-gathr-forest/10 px-3 py-1 text-sm font-medium text-gathr-forest">
                     🔥 {currentUser.streakWeeks}-week streak
                   </span>
                 </div>
@@ -111,29 +134,30 @@ function ProfileScreen() {
             {/* ── Up Next ────────────────────────────────────────── */}
             <section className="px-5 pt-5 pb-4">
               <SectionHeader title="Up next" />
-              {attendingEvents.length > 0 ? (
+              {upcomingSessions.length > 0 ? (
                 <div className="space-y-2">
-                  {attendingEvents.map((e) => (
+                  {upcomingSessions.map((s) => (
                     <Link
-                      key={e.id}
-                      to="/home"
-                      className="block rounded-2xl bg-background px-4 py-3 ring-1 ring-border/60 hover:ring-primary/40 transition-colors"
+                      key={s.id}
+                      to="/group/$groupId"
+                      params={{ groupId: s.matchGroupId }}
+                      className="block bg-white/80 rounded-2xl shadow-warm p-4 transition-colors"
                     >
                       <p className="font-display text-base text-gathr-charcoal leading-snug">
-                        {e.name}
+                        {s.courseName}
                       </p>
                       <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-gathr-warm-gray">
                         <span className="flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
-                          {formatEventDate(e.dateTime)}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <MapPin className="h-3 w-3" />
-                          {e.location}
+                          {s.date} · {s.time}
                         </span>
                         <span className="flex items-center gap-1">
                           <Users className="h-3 w-3" />
-                          {e.totalAttendees}
+                          {groupName(s.matchGroupId)}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <MapPin className="h-3 w-3" />
+                          {s.confirmedMemberIds.length} confirmed
                         </span>
                       </div>
                     </Link>
@@ -152,6 +176,7 @@ function ProfileScreen() {
             <div className="mx-5 h-px bg-gathr-warm-gray-light/40" />
 
             {/* ── Communities ────────────────────────────────────── */}
+            {/* TODO: Replace with activity-based discovery */}
             {joinedCommunities.length > 0 && (
               <section className="pt-5 pb-4">
                 <div className="px-5">
@@ -173,7 +198,6 @@ function ProfileScreen() {
                       </Link>
                     ))}
                   </div>
-                  {/* Right fade edge */}
                   <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background to-transparent" />
                 </div>
               </section>
@@ -181,15 +205,15 @@ function ProfileScreen() {
 
             <div className="mx-5 h-px bg-gathr-warm-gray-light/40" />
 
-            {/* ── Connections ────────────────────────────────────── */}
+            {/* ── People in your groups ──────────────────────────── */}
             <section className="px-5 pt-5 pb-4">
               <SectionHeader
-                title={`Connections · ${connectionIds.length} people`}
-                linkLabel={hasMoreConnections ? "See all →" : undefined}
+                title={`People in your groups · ${groupMemberIds.size} people`}
+                linkLabel={hasMoreMembers ? "See all →" : undefined}
               />
-              {connections.length > 0 ? (
+              {groupMembers.length > 0 ? (
                 <div className="grid grid-cols-4 gap-3">
-                  {connections.map((u, i) => (
+                  {groupMembers.map((u, i) => (
                     <Link
                       key={u.id}
                       to="/profile/$userId"
@@ -206,7 +230,7 @@ function ProfileScreen() {
                             : i % 5 === 2
                               ? "bg-gathr-coral"
                               : i % 5 === 3
-                                ? "bg-gathr-forest"
+                                ? "bg-gathr-amber"
                                 : undefined
                         }
                       />
@@ -218,7 +242,7 @@ function ProfileScreen() {
                 </div>
               ) : (
                 <p className="text-sm text-gathr-warm-gray">
-                  Going to events is the best way to meet people.
+                  Join a group to meet other players.
                 </p>
               )}
             </section>
@@ -229,33 +253,39 @@ function ProfileScreen() {
             <section className="px-5 pt-5 pb-6">
               <SectionHeader title="Recent activity" />
               <div className="relative pl-4">
-                {/* Vertical timeline line */}
                 <div className="absolute left-[7px] top-1 bottom-1 w-0.5 bg-gathr-warm-gray-light/60" />
                 <div className="space-y-4">
-                  {recentActivity.map((e) => (
+                  {recentSessions.length > 0 ? recentSessions.map((s) => (
                     <Link
-                      key={e.id}
-                      to="/home"
+                      key={s.id}
+                      to="/group/$groupId"
+                      params={{ groupId: s.matchGroupId }}
                       className="relative flex items-start gap-3 group"
                     >
-                      {/* Amber dot */}
-                      <span className="absolute -left-4 top-[5px] h-2 w-2 rounded-full bg-gathr-amber ring-2 ring-background shrink-0" />
+                      <span className="absolute -left-4 top-[5px] h-2 w-2 rounded-full bg-gathr-forest ring-2 ring-background shrink-0" />
                       <div>
-                        <p className="text-sm font-medium text-gathr-charcoal group-hover:text-gathr-amber transition-colors">
-                          {e.name}
+                        <p className="text-sm font-medium text-gathr-charcoal group-hover:text-gathr-forest transition-colors">
+                          {s.courseName}
                         </p>
                         <div className="flex items-center gap-2 mt-0.5">
                           <span className="text-xs text-gathr-warm-gray">
-                            {formatEventDate(e.dateTime)}
+                            {s.date}
+                          </span>
+                          <span className="text-xs text-gathr-warm-gray-light">·</span>
+                          <span className="flex items-center gap-1 text-xs text-gathr-warm-gray">
+                            <Flag className="h-3 w-3" />
+                            {s.score}
                           </span>
                           <span className="text-xs text-gathr-warm-gray-light">·</span>
                           <span className="text-xs text-gathr-warm-gray">
-                            {e.totalAttendees} people
+                            {groupName(s.matchGroupId)}
                           </span>
                         </div>
                       </div>
                     </Link>
-                  ))}
+                  )) : (
+                    <p className="text-sm text-gathr-warm-gray">No recent rounds yet.</p>
+                  )}
                 </div>
               </div>
             </section>

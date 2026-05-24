@@ -125,7 +125,7 @@ function FieldSection({ field, value, onChange }: FieldSectionProps) {
           value={typeof value === "string" ? value : ""}
           onChange={(e) => onChange(field.id, e.target.value)}
           placeholder={`Enter your ${field.label.toLowerCase()}`}
-          className="mt-5 w-full h-14 bg-transparent text-base text-gathr-charcoal border-b-2 border-gathr-warm-gray-light focus:border-gathr-amber focus:outline-none transition-colors placeholder:text-gathr-warm-gray-light"
+          className="mt-5 w-full h-14 bg-transparent text-base text-gathr-charcoal border-b-2 border-gathr-warm-gray-light focus:border-gathr-forest focus:outline-none transition-colors placeholder:text-gathr-warm-gray-light"
         />
       )}
 
@@ -161,7 +161,7 @@ function IntensityCard({ level, selected, onSelect }: IntensityCardProps) {
       className={cn(
         "w-full text-left rounded-card-lg border-2 px-5 py-4 transition-colors duration-200 cursor-pointer",
         selected
-          ? "border-gathr-forest bg-gathr-forest/5"
+          ? "border-gathr-amber bg-gathr-amber/5"
           : "border-gathr-warm-gray-light bg-white hover:border-gathr-warm-gray",
       )}
       aria-pressed={selected}
@@ -180,7 +180,7 @@ function IntensityCard({ level, selected, onSelect }: IntensityCardProps) {
         </div>
         <span className={cn(
           "mt-0.5 shrink-0 h-5 w-5 rounded-full border-2 flex items-center justify-center transition-colors",
-          selected ? "border-gathr-forest bg-gathr-forest" : "border-gathr-warm-gray-light",
+          selected ? "border-gathr-amber bg-gathr-amber" : "border-gathr-warm-gray-light",
         )}>
           {selected && (
             <span className="h-2 w-2 rounded-full bg-white" />
@@ -316,7 +316,7 @@ function ActivityProfileComponent() {
             onChange={(e) => setThirdObject(e.target.value)}
             placeholder="Break 90 by end of summer, play every Saturday morning, find a regular foursome..."
             rows={4}
-            className="mt-5 w-full min-h-[120px] resize-none rounded-card-sm border border-gathr-warm-gray-light focus:border-gathr-amber focus:outline-none p-4 bg-transparent text-base text-gathr-charcoal placeholder:text-gathr-warm-gray-light transition-colors"
+            className="mt-5 w-full min-h-[120px] resize-none rounded-card-sm border border-gathr-warm-gray-light focus:border-gathr-forest focus:outline-none p-4 bg-transparent text-base text-gathr-charcoal placeholder:text-gathr-warm-gray-light transition-colors"
           />
           <div className="mt-3 flex flex-wrap gap-2">
             {GOAL_CHIPS.map((chip) => (

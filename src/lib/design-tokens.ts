@@ -1,3 +1,4 @@
+// Use sparingly. Most UI should render without animation. Reserve motion for state changes and user feedback.
 import type { Transition, Variants } from "motion/react";
 
 // Standard UI transitions (buttons, dropdowns, tooltips)

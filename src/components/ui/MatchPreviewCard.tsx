@@ -4,7 +4,7 @@ import { Check } from "lucide-react";
 import type { MatchGroup, User, Activity } from "@/lib/activity-framework";
 import { AvatarGroup } from "./AvatarGroup";
 import { GathrButton } from "./GathrButton";
-import { CARD_PRESS, TRANSITION_SPRING } from "@/lib/design-tokens";
+import { TRANSITION_SPRING } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 
 export interface MatchPreviewCardProps {
@@ -78,11 +78,9 @@ export function MatchPreviewCard({
   const stats = buildStats(members, activity);
 
   return (
-    <motion.div
-      whileTap={CARD_PRESS.whileTap}
-      transition={CARD_PRESS.transition}
+    <div
       className={cn(
-        "bg-gathr-cream-dark rounded-card-lg shadow-warm ring-1 ring-gathr-warm-gray-light/40 p-4",
+        "bg-white/80 rounded-2xl shadow-warm p-4 active:bg-black/[0.03] transition-colors",
         className,
       )}
     >
@@ -112,7 +110,7 @@ export function MatchPreviewCard({
 
       {/* Compatibility score */}
       {compatibilityScore !== undefined && (
-        <p className="mt-2 font-body text-sm font-semibold text-gathr-forest">
+        <p className="mt-2 font-body text-sm font-semibold text-gathr-amber">
           {compatibilityScore}% match
         </p>
       )}
@@ -132,7 +130,7 @@ export function MatchPreviewCard({
                 variant="secondary"
                 size="sm"
                 onClick={handleJoin}
-                className="gap-1.5 text-gathr-forest border-gathr-forest"
+                className="gap-1.5 text-gathr-amber border-gathr-amber"
               >
                 <Check className="h-4 w-4" strokeWidth={2} />
                 You're in
@@ -153,6 +151,6 @@ export function MatchPreviewCard({
           )}
         </AnimatePresence>
       </div>
-    </motion.div>
+    </div>
   );
 }

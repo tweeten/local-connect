@@ -1,3 +1,4 @@
+// Not currently used in any route. Retained for future use.
 import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 

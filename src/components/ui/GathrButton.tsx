@@ -22,9 +22,9 @@ const sizeClasses = {
 
 const variantClasses = {
   primary:
-    "bg-gathr-amber text-white rounded-full font-semibold shadow-warm hover:bg-gathr-amber-light disabled:opacity-50",
+    "bg-gathr-forest text-white rounded-full font-semibold shadow-warm hover:bg-gathr-forest-light disabled:opacity-50",
   secondary:
-    "border-2 border-gathr-amber text-gathr-amber bg-transparent rounded-full font-semibold hover:bg-gathr-amber/10 disabled:opacity-50",
+    "border-2 border-gathr-forest text-gathr-forest bg-transparent rounded-full font-semibold hover:bg-gathr-forest/10 disabled:opacity-50",
   ghost:
     "text-gathr-warm-gray bg-transparent hover:text-gathr-charcoal disabled:opacity-50",
 };
@@ -32,7 +32,7 @@ const variantClasses = {
 function Spinner({ white }: { white: boolean }) {
   return (
     <svg
-      className={cn("animate-spin h-4 w-4", white ? "text-white" : "text-gathr-amber")}
+      className={cn("animate-spin h-4 w-4", white ? "text-white" : "text-gathr-forest")}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

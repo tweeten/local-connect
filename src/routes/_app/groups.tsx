@@ -1,5 +1,4 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { motion } from "motion/react";
 import { Users, ChevronRight } from "lucide-react";
 import {
   TopBar,
@@ -10,13 +9,6 @@ import {
 } from "@/components/ui";
 import { useGathr } from "@/lib/GathrContext";
 import { USERS } from "@/lib/mock-data";
-import {
-  STAGGER_CONTAINER,
-  STAGGER_CHILDREN,
-  TRANSITION_SPRING,
-  TRANSITION_GENTLE,
-  CARD_PRESS,
-} from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_app/groups")({
@@ -38,14 +30,11 @@ function GroupsComponent() {
   );
 
   return (
-    <div className="min-h-screen bg-gathr-cream overflow-y-auto">
+    <div className="h-full bg-gathr-cream overflow-y-auto">
       <TopBar title="Groups" showBell={false} />
 
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={TRANSITION_GENTLE}
-        className="px-4 pb-28"
+      <div
+        className="px-4 pb-28 sm:px-8 md:px-16 lg:max-w-2xl lg:mx-auto lg:px-8"
         style={{ paddingTop: 72 }}
       >
         {/* ── Your Groups ─────────────────────────────────────────────── */}
@@ -65,38 +54,27 @@ function GroupsComponent() {
               }
             />
           ) : (
-            <motion.div
-              variants={STAGGER_CONTAINER}
-              initial="initial"
-              animate="animate"
-              className="flex flex-col gap-3"
-            >
-              {myGroups.map((group, i) => {
+            <div className="flex flex-col gap-3">
+              {myGroups.map((group) => {
                 const members = group.memberIds
                   .map((id) => USERS.find((u) => u.id === id))
                   .filter(Boolean) as (typeof USERS)[number][];
 
                 return (
-                  <motion.div
+                  <GroupRow
                     key={group.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ ...TRANSITION_SPRING, delay: i * STAGGER_CHILDREN }}
-                  >
-                    <GroupRow
-                      group={group}
-                      members={members}
-                      onPress={() =>
-                        navigate({
-                          to: "/group/$groupId",
-                          params: { groupId: group.id },
-                        })
-                      }
-                    />
-                  </motion.div>
+                    group={group}
+                    members={members}
+                    onPress={() =>
+                      navigate({
+                        to: "/group/$groupId",
+                        params: { groupId: group.id },
+                      })
+                    }
+                  />
                 );
               })}
-            </motion.div>
+            </div>
           )}
         </section>
 
@@ -105,13 +83,8 @@ function GroupsComponent() {
           <section className="mb-8">
             <SectionHeader title="Discover" className="px-0" />
 
-            <motion.div
-              variants={STAGGER_CONTAINER}
-              initial="initial"
-              animate="animate"
-              className="flex flex-col gap-3"
-            >
-              {discoverGroups.map((group, i) => {
+            <div className="flex flex-col gap-3">
+              {discoverGroups.map((group) => {
                 const spotsLeft = Math.max(1, 4 - group.memberIds.length);
                 const scores = group.memberIds
                   .map((uid) => USERS.find((u) => u.id === uid))
@@ -127,14 +100,8 @@ function GroupsComponent() {
                 const maxScore = scores.length ? Math.max(...scores) : null;
 
                 return (
-                  <motion.div
+                  <div
                     key={group.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      ...TRANSITION_SPRING,
-                      delay: (myGroups.length + i) * STAGGER_CHILDREN,
-                    }}
                     className="rounded-2xl bg-gathr-cream-dark shadow-warm p-4"
                   >
                     <div className="flex items-start justify-between mb-2">
@@ -148,7 +115,7 @@ function GroupsComponent() {
                           </p>
                         )}
                       </div>
-                      <span className="ml-2 shrink-0 px-2 py-0.5 rounded-full bg-gathr-forest/15 text-gathr-forest font-body text-[10px] font-semibold">
+                      <span className="ml-2 shrink-0 px-2 py-0.5 rounded-full bg-gathr-amber/15 text-gathr-amber font-body text-[10px] font-semibold">
                         {spotsLeft} spot{spotsLeft !== 1 ? "s" : ""} left
                       </span>
                     </div>
@@ -160,13 +127,13 @@ function GroupsComponent() {
                     >
                       I'm in
                     </GathrButton>
-                  </motion.div>
+                  </div>
                 );
               })}
-            </motion.div>
+            </div>
           </section>
         )}
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -187,10 +154,9 @@ interface GroupRowProps {
 
 function GroupRow({ group, members, onPress }: GroupRowProps) {
   return (
-    <motion.button
-      {...CARD_PRESS}
+    <button
       onClick={onPress}
-      className="w-full text-left bg-gathr-cream-dark rounded-2xl shadow-warm p-4 flex items-center gap-3"
+      className="w-full text-left bg-gathr-cream-dark rounded-2xl shadow-warm p-4 flex items-center gap-3 active:bg-black/[0.03] transition-colors"
     >
       {/* Avatar stack */}
       <div className="flex -space-x-2 shrink-0">
@@ -219,6 +185,6 @@ function GroupRow({ group, members, onPress }: GroupRowProps) {
 
       {/* Chevron */}
       <ChevronRight className="h-4 w-4 text-gathr-warm-gray-light shrink-0" />
-    </motion.button>
+    </button>
   );
 }

@@ -12,9 +12,9 @@ export interface IntensitySpectrumProps {
 
 // Progressively darker stops from most casual to most competitive
 const SPECTRUM_COLORS = [
-  "#3A7A52", // gathr-amber-light (most casual)
-  "#2D5F3F", // gathr-amber
-  "#D4893F", // gathr-forest
+  "#3A7A52", // gathr-forest-light (most casual)
+  "#2D5F3F", // gathr-forest
+  "#D4893F", // gathr-amber
   "#2C2C2C", // gathr-charcoal (most competitive)
 ];
 

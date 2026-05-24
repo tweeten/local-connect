@@ -1,13 +1,14 @@
+// Not currently used in any route. Retained for future use.
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronRight, Check } from "lucide-react";
 import { GathrButton } from "./GathrButton";
-import { CARD_PRESS, TRANSITION_DEFAULT } from "@/lib/design-tokens";
+import { TRANSITION_DEFAULT } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 
 type AccentColor = "amber" | "sage" | "coral" | "terracotta" | "dusty-blue";
 
 const accentColorMap: Record<AccentColor, string> = {
-  amber: "bg-gathr-amber",
+  amber: "bg-gathr-forest",
   sage: "bg-gathr-sage",
   coral: "bg-gathr-coral",
   terracotta: "bg-gathr-terracotta",
@@ -46,39 +47,25 @@ export function CommunityCard({
   className,
 }: CommunityCardProps) {
   return (
-    <motion.div
-      layout
-      whileTap={CARD_PRESS.whileTap}
-      transition={CARD_PRESS.transition}
+    <div
       onClick={() => onPress?.(id)}
-      animate={
-        joining
-          ? {
-              boxShadow: [
-                "0 0 0 0px rgba(212,137,63,0)",
-                "0 0 0 6px rgba(212,137,63,0.35)",
-                "0 0 0 2px rgba(212,137,63,0.15)",
-              ],
-            }
-          : { boxShadow: "0 0 0 0px rgba(212,137,63,0)" }
-      }
       className={cn(
-        "flex overflow-hidden rounded-card-sm shadow-warm cursor-pointer",
+        "flex overflow-hidden rounded-2xl shadow-warm cursor-pointer active:bg-black/[0.03] transition-colors",
         suggested && !joining && "opacity-85",
         className,
       )}
     >
       {/* Left accent bar */}
       <div
-        className={cn(
-          "w-1 shrink-0 rounded-l-card-sm",
+          className={cn(
+          "w-1 shrink-0 rounded-l-2xl",
           accentColorMap[accent],
           suggested && !joining && "opacity-50",
         )}
       />
 
       {/* Content */}
-      <div className="flex flex-1 items-center gap-3 bg-gathr-cream-dark px-4 py-3.5">
+      <div className="flex flex-1 items-center gap-3 bg-white/80 p-4">
         <div className="flex-1 min-w-0">
           <p className="font-body font-semibold text-gathr-charcoal truncate">{name}</p>
           <p className="text-sm text-gathr-warm-gray mt-0.5">
@@ -139,6 +126,6 @@ export function CommunityCard({
           />
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
